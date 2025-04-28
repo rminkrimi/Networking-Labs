@@ -1,0 +1,29 @@
+RouterEO:
+Router> en
+Router# conf t
+Router# ho RouterEO
+RouterEO(config)# int gig 0/2/0
+RouterEO(config-if)# ipv6 add FD00:2:3:147::7/64
+RouterEO(config-if)# int gig 0/1/0
+RouterEO(config-if)# ipv6 add FD00:3:2:147::14/64
+RouterEO(config-if)# do wr
+Building configuration...
+[OK]
+RouterEO(config-if)# ex
+RouterEO(config)# ipv6 unicast-routing
+RouterEO(config)# ipv6 router eigrp 20
+RouterEO(config-rtr)# eigrp router-id 2.3.2.3
+RouterEO(config-rtr)# ex
+RouterEO(config)# int gig 0/2/0
+RouterEO(config-if)# ipv6 eigrp 20
+RouterEO(config-if)# ex
+RouterEO(config)# ipv6 router ospf 20
+RouterEO(config-rtr)# router-id 3.2.3.2
+RouterEO(config-rtr)# ex
+RouterEO(config)# int gig 0/1/0
+RouterEO(config-if)# ipv6 ospf 20 area 0
+RouterEO(config-if)# do wr
+Building configuration...
+[OK]
+RouterEO(config-if)#
+------------------

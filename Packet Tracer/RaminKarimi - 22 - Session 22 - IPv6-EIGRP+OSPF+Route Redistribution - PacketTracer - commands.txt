@@ -1,0 +1,311 @@
+RaminKarimi - 22 - Session 22 - IPv6-EIGRP+OSPF+Route-Redistribution
+-----------------------------------
+Router21E:
+Router> en
+Router# conf t
+Router(config)# ho Router21E
+Router21E(config)# int gig 0/0
+Router21E(config-if)# ipv6 add FD00:2020:3030:21::21/64
+Router21E(config-if)# no sh
+Router21E(config-if)# int gig 0/1/0
+Router21E(config-if)# ipv6 add FD00:2020:3030:2122::21/64
+Router21E(config-if)# no sh
+Router21E(config-if)# int gig 0/2/0
+Router21E(config-if)# ipv6 add FD00:2020:3030:2123::21/64
+Router21E(config-if)# no sh
+Router21E(config-if)# int gig 0/3/0
+Router21E(config-if)# ipv6 add FD00:2020:3030:2120::21/64
+Router21E(config-if)# no sh
+Router21E(config-if)# do wr
+Building configuration...
+[OK]
+Router21E(config-if)# do ping FD00:2020:3030:21::211
+Router21E(config-if)# do ping FD00:2020:3030:21::212
+Router21E(config-if)# ex
+Router21E(config)# ipv6 unicast-routing
+Router21E(config)# ipv6 router eigrp 2030
+Router21E(config-rtr)# no sh
+Router21E(config-rtr)# eigrp router-id 21.21.21.21
+Router21E(config-rtr)# ex
+Router21E(config)# int gig 0/0
+Router21E(config-if)# ipv6 eigrp 2030
+Router21E(config-if)# int gig 0/1/0
+Router21E(config-if)# ipv6 eigrp 2030
+Router21E(config-if)# int gig 0/2/0
+Router21E(config-if)# ipv6 eigrp 2030
+Router21E(config-if)# int gig 0/3/0
+Router21E(config-if)# ipv6 eigrp 2030
+Router21E(config-if)# do wr
+Building configuration...
+[OK]
+Router21E(config-if)#
+-----------------------------------
+Router22E:
+Router> en
+Router# conf t
+Router(config)# ho Router22E
+Router22E(config)# int gig 0/0
+Router22E(config-if)# ipv6 add FD00:2020:3030:22::22/64
+Router22E(config-if)# no sh
+Router22E(config-if)# int gig 0/1/0
+Router22E(config-if)# ipv6 add FD00:2020:3030:2122::22/64
+Router22E(config-if)# no sh
+Router22E(config-if)# int gig 0/2/0
+Router22E(config-if)# ipv6 add FD00:2020:3030:2223::22/64
+Router22E(config-if)# no sh
+Router22E(config-if)# do wr
+Building configuration...
+[OK]
+Router22E(config-if)# do ping FD00:2020:3030:22::221
+Router22E(config-if)# do ping FD00:2020:3030:22::222
+Router22E(config-if)# ex
+Router22E(config)# ipv6 unicast-routing
+Router22E(config)# ipv6 router eigrp 2030
+Router22E(config-rtr)# no sh
+Router22E(config-rtr)# eigrp router-id 22.22.22.22
+Router22E(config-rtr)# ex
+Router22E(config)# int gig 0/0
+Router22E(config-if)# ipv6 eigrp 2030
+Router22E(config-if)# int gig 0/1/0
+Router22E(config-if)# ipv6 eigrp 2030
+Router22E(config-if)# int gig 0/2/0
+Router22E(config-if)# ipv6 eigrp 2030
+Router22E(config-if)# do wr
+Building configuration...
+[OK]
+Router22E(config-if)#
+-----------------------------------
+Router23E: 
+Router> en
+Router# conf t
+Router(config)# ho Router22E
+Router23E(config)# int gig 0/0
+Router23E(config-if)# ipv6 add FD00:2020:3030:23::23/64
+Router23E(config-if)# no sh
+Router23E(config-if)# int gig 0/1/0
+Router23E(config-if)# ipv6 add FD00:2020:3030:2223::23/64
+Router23E(config-if)# no sh
+Router23E(config-if)# int gig 0/2/0
+Router23E(config-if)# ipv6 add FD00:2020:3030:2123::23/64
+Router23E(config-if)# no sh
+Router23E(config-if)# do wr
+Building configuration...
+[OK]
+Router23E(config-if)# do ping FD00:2020:3030:23::231
+Router23E(config-if)# do ping FD00:2020:3030:23::232
+Router23E(config-if)# ex
+Router23E(config)# ipv6 unicast-routing
+Router23E(config)# ipv6 router eigrp 2030
+Router23E(config-rtr)# no sh
+Router23E(config-rtr)# eigrp router-id 23.23.23.23
+Router23E(config-rtr)# ex
+Router23E(config)# int gig 0/0
+Router23E(config-if)# ipv6 eigrp 2030
+Router23E(config-if)# int gig 0/1/0
+Router23E(config-if)# ipv6 eigrp 2030
+Router23E(config-if)# int gig 0/2/0
+Router23E(config-if)# ipv6 eigrp 2030
+Router23E(config-if)# do wr
+Building configuration...
+[OK]
+Router23E(config-if)#
+-----------------------------------
+-----------------------------------
+-----------------------------------
+Router2030EO:
+Router> en
+Router# conf t
+Router(config)# ho Router2030EO
+Router2030EO(config-if)# int gig 0/1/0
+Router2030EO(config-if)# ipv6 add FD00:2020:3030:2120::20/64
+Router2030EO(config-if)# no sh
+Router2030EO(config-if)# int gig 0/2/0
+Router2030EO(config-if)# ipv6 add FD00:3030:2020:3130::30/64
+Router2030EO(config-if)# no sh
+Router2030EO(config-if)# do wr
+Router2030EO configuration...
+[OK]
+Router2030EO(config-if)# ex
+Router2030EO(config)# ipv6 unicast-routing
+Router2030EO(config)# ipv6 router eigrp 2030
+Router2030EO(config-rtr)# no sh
+Router2030EO(config-rtr)# eigrp router-id 20.20.20.20
+Router2030EO(config-if)# int gig 0/1/0
+Router2030EO(config-if)# ipv6 eigrp 2030
+Router2030EO(config-if)# ex
+Router2030EO(config)# ipv6 router ospf 2030
+Router2030EO(config-rtr)# router-id 30.30.30.30
+Router2030EO(config-rtr)# ex
+Router2030EO(config-if)# int gig 0/2/0
+Router2030EO(config-if)# ipv6 ospf 2030 area 0
+Router2030EO(config-if)# do wr
+Building configuration...
+[OK]
+Router2030EO(config-if)#ex
+Router2030EO(config)#ipv6 router eigrp 2030
+Router2030EO(config-rtr)# red
+Router2030EO(config-rtr)# redistribute osp
+Router2030EO(config-rtr)# redistribute ospf 2030 ?
+  match   Redistribution of OSPF routes
+  metric  Metric for redistributed routes
+  <cr>
+Router2030EO(config-rtr)# redistribute ospf 2030 ?
+  match   Redistribution of OSPF routes
+  metric  Metric for redistributed routes
+  <cr>
+Router2030EO(config-rtr)# redistribute ospf 2030 met
+Router2030EO(config-rtr)# redistribute ospf 2030 metric ?
+  <1-4294967295>  Bandwidth metric in Kbits per second
+Router2030EO(config-rtr)# redistribute ospf 2030 metric 1000000 ?
+  <0-4294967295>  EIGRP delay metric, in 10 microsecond units
+Router2030EO(config-rtr)# redistribute ospf 2030 metric 1000000 10?
+<0-4294967295>  
+Router2030EO(config-rtr)# redistribute ospf 2030 metric 1000000 10 ?
+  <0-255>  EIGRP reliability metric where 255 is 100% reliable
+Router2030EO(config-rtr)# redistribute ospf 2030 metric 1000000 10 255 ?
+  <1-255>  EIGRP Effective bandwidth metric (Loading) where 255 is 100% loaded
+Router2030EO(config-rtr)# redistribute ospf 2030 metric 1000000 10 255 ?
+  <1-255>  EIGRP Effective bandwidth metric (Loading) where 255 is 100% loaded
+Router2030EO(config-rtr)# redistribute ospf 2030 metric 1000000 10 255 1 ?
+  <1-65535>  EIGRP MTU of the path
+Router2030EO(config-rtr)# redistribute ospf 2030 metric 1000000 10 255 1 1500 ?
+  match  Redistribution of OSPF routes
+  <cr>
+Router2030EO(config-rtr)# redistribute ospf 2030 metric 1000000 10 255 1 1500 
+Router2030EO(config-rtr)# do wr
+Building configuration...
+[OK]
+Router2030EO(config-rtr)# ex
+Router2030EO(config-rtr)# ex
+Router2030EO(config)# ipv6 router ospf 2030
+Router2030EO(config-rtr)#  red
+Router2030EO(config-rtr)# red
+Router2030EO(config-rtr)# redistribute eig
+Router2030EO(config-rtr)# redistribute eigrp 2030 ?
+  metric       Metric for redistributed routes
+  metric-type  OSPF/IS-IS exterior metric type for redistributed routes
+  tag          Set tag for routes redistributed into OSPF
+  <cr>
+Router2030EO(config-rtr)# redistribute eigrp 2030 ?
+  metric       Metric for redistributed routes
+  metric-type  OSPF/IS-IS exterior metric type for redistributed routes
+  tag          Set tag for routes redistributed into OSPF
+  <cr>
+Router2030EO(config-rtr)# redistribute eigrp 2030 metric-
+Router2030EO(config-rtr)# redistribute eigrp 2030 metric-type 2
+Router2030EO(config-rtr)# do wr
+Building configuration...
+[OK]
+Router2030EO(config-rtr)#
+
+
+-----------------------------------
+-----------------------------------
+-----------------------------------
+Router31O:
+Router> en
+Router# conf t
+Router(config)# ho Router31O
+Router31O(config)# int gig 0/0
+Router31O(config-if)# ipv6 add FD00:3030:2020:31::31/64
+Router31O(config-if)# no sh
+Router31O(config-if)# int gig 0/1/0
+Router31O(config-if)# ipv6 add FD00:3030:2020:3132::31/64
+Router31O(config-if)# no sh
+Router31O(config-if)# int gig 0/2/0
+Router31O(config-if)# ipv6 add FD00:3030:2020:3133::31/64
+Router31O(config-if)# no sh
+Router31O(config-if)# int gig 0/3/0
+Router31O(config-if)# ipv6 add FD00:3030:2020:3130::31/64
+Router31O(config-if)# no sh
+Router31O(config-if)# do wr
+Building configuration...
+[OK]
+Router31O(config-if)# do ping FD00:3030:2020:31::311
+Router31O(config-if)# do ping FD00:3030:2020:31::312
+Router31O(config-if)# ex
+Router31O(config)# ipv6 unicast-routing
+Router31O(config)# ipv6 router ospf 2030
+Router31O(config-rtr)# router-id 31.31.31.31
+Router31O(config-rtr)# ex
+Router31O(config)# int gig 0/0
+Router31O(config-if)# ipv6 ospf 2030 area 0
+Router31O(config-if)# int gig 0/1/0
+Router31O(config-if)# ipv6 ospf 2030 area 0
+Router31O(config-if)# int gig 0/2/0
+Router31O(config-if)# ipv6 ospf 2030 area 0
+Router31O(config-if)# int gig 0/3/0
+Router31O(config-if)# ipv6 ospf 2030 area 0
+Router31O(config-if)# do wr
+Building configuration...
+[OK]
+Router31O(config-if)#
+-----------------------------------
+Router32O:
+Router> en
+Router# conf t
+Router(config)# ho Router32O
+Router32O(config)# int gig 0/0
+Router32O(config-if)# ipv6 add FD00:3030:2020:32::32/64
+Router32O(config-if)# no sh
+Router32O(config-if)# int gig 0/1/0
+Router32O(config-if)# ipv6 add FD00:3030:2020:3132::32/64
+Router32O(config-if)# no sh
+Router32O(config-if)# int gig 0/2/0
+Router32O(config-if)# ipv6 add FD00:3030:2020:3233::32/64
+Router32O(config-if)# no sh
+Router32O(config-if)# do wr
+Building configuration...
+[OK]
+Router32O(config-if)# do ping FD00:3030:2020:32::321
+Router32O(config-if)# do ping FD00:3030:2020:32::322
+Router32O(config-if)# ex
+Router32O(config)# ipv6 unicast-routing
+Router32O(config)# ipv6 router ospf 2030
+Router32O(config-rtr)# router-id 32.32.32.32
+Router32O(config-rtr)# ex
+Router32O(config)# int gig 0/0
+Router32O(config-if)# ipv6 ospf 2030 area 0
+Router32O(config-if)# int gig 0/1/0
+Router32O(config-if)# ipv6 ospf 2030 area 0
+Router32O(config-if)# int gig 0/2/0
+Router32O(config-if)# ipv6 ospf 2030 area 0
+Router32O(config-if)# do wr
+Building configuration...
+[OK]
+Router2(config-if)#
+-----------------------------------
+Router33O:
+Router> en
+Router# conf t
+Router(config)# ho Router33O
+Router33O(config)# int gig 0/0
+Router33O(config-if)# ipv6 add FD00:3030:2020:33::33/64
+Router33O(config-if)# no sh
+Router33O(config-if)# int gig 0/1/0
+Router33O(config-if)# ipv6 add FD00:3030:2020:3133::33/64
+Router33O(config-if)# no sh
+Router33O(config-if)# int gig 0/2/0
+Router33O(config-if)# ipv6 add FD00:3030:2020:3233::33/64
+Router33O(config-if)# no sh
+Router33O(config-if)# do wr
+Building configuration...
+[OK]
+Router33O(config-if)# do ping FD00:3030:2020:33::331
+Router33O(config-if)# do ping FD00:3030:2020:33::332
+Router33O(config-if)# ex
+Router33O(config)# ipv6 unicast-routing
+Router33O(config)# ipv6 router ospf 2030
+Router33O(config-rtr)# router-id 33.33.33.33
+Router33O(config-rtr)# ex
+Router33O(config)# int gig 0/0
+Router33O(config-if)# ipv6 ospf 2030 area 0
+Router33O(config-if)# int gig 0/1/0
+Router33O(config-if)# ipv6 ospf 2030 area 0
+Router33O(config-if)# int gig 0/2/0
+Router33O(config-if)# ipv6 ospf 2030 area 0
+Router33O(config-if)# do wr
+Building configuration...
+[OK]
+Router33O(config-if)#
+-----------------------------------

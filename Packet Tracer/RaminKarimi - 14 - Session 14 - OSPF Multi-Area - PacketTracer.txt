@@ -1,0 +1,159 @@
+RaminKarimi - 14 - Session 14 - OSPF Multi-Area
+---------------------------------------------
+R0:
+Router> en
+Router#  conf t
+Router(config)# host R0
+R0(config)# int loo 10
+R0(config-if)# ip add 10.10.10.10 255.255.255.255
+R0(config-if)# ex
+R0(config)# int gig 0/0/0
+R0(config-if)# ip add 192.168.30.1 255.255.255.0
+R0(config-if)# no sh
+R0(config-if)# int gig 0/1/0
+R0(config-if)# ip add 192.168.10.1 255.255.255.0
+R0(config-if)# no sh
+R0(config-if)# int gig 0/2/0
+R0(config-if)# ip add 192.168.20.1 255.255.255.0
+R0(config-if)# no sh
+R0(config-if)# ex
+R0(config)# router ospf 100
+R0(config-router)# net 192.168.10.0 0.0.0.255 area 0
+R0(config-router)# net 192.168.20.0 0.0.0.255 area 0
+R0(config-router)# net 192.168.30.0 0.0.0.255 area 0
+R0(config-router)# do wr
+Building configuration...
+[OK]
+--------------------------
+R1:
+Router> en
+Router# conf t
+Router(config)# ho R1
+R1(config)# int loo 11
+R1(config-if)# ip add 11.11.11.11 255.255.255.255
+R1(config-if)# no sh
+R1(config-if)# ex
+R1(config)# int gig 0/0/0
+R1(config-if)# ip add 192.168.15.1 255.255.255.0
+R1(config-if)# no sh
+R1(config-if)# int gig 0/1/0
+R1(config-if)# ip add 192.168.10.2 255.255.255.0
+R1(config-if)# no sh
+R1(config-if)# ex
+R1(config)# router ospf 100
+R1(config-router)# net 192.168.10.0 0.0.0.255 area 0
+R1(config-router)# net 192.168.15.0 0.0.0.255 area 1
+R1(config-router)# do wr
+Building configuration...
+[OK]
+----------------------------------------
+R2:
+Router> en
+Router# conf t
+Router(config)# ho R2
+R2(config)# int loo 22
+R2(config-if)# ip add 22.22.22.22 255.255.255.255
+R2(config-if)# no sh
+R2(config-if)# ex
+R2(config)# int gig 0/0/0
+R2(config-if)# ip add 192.168.26.2 255.255.255.0
+R2(config-if)# no sh
+R2(config-if)# int gig 0/2/0
+R2(config-if)# ip add 192.168.20.2 255.255.255.0
+R2(config-if)# no sh
+R2(config-if)# ex
+R2(config)# router ospf 100
+R2(config-router)# net 192.168.20.0 0.0.0.255 area 0
+R2(config-router)# net 192.168.26.0 0.0.0.255 area 2
+R2(config-router)# do wr
+Building configuration...
+[OK]
+-----------------------------------------
+R3:
+Router> en
+Router# conf t
+Router(config)# ho R3
+R3(config)# int loo 33
+R3(config-if)# ip add 33.33.33.33 255.255.255.255
+R3(config-if)# no sh
+R3(config-if)# ex
+R3(config)# int gig 0/0/0
+R3(config-if)# ip add 192.168.30.2 255.255.255.0
+R3(config-if)# no sh
+R3(config-if)# int gig 0/1/0
+R3(config-if)# ip add 192.168.34.3 255.255.255.0
+R3(config-if)# no sh
+R3(config-if)# ex
+R3(config)# router ospf 100
+R3(config-router)# net 192.168.30.0 0.0.0.255 area 0
+R3(config-router)# net 192.168.34.0 0.0.0.255 area 3
+R3(config-router)# do wr
+Building configuration...
+[OK]
+--------------------------------------------
+R4:
+Router> en
+Router# conf t
+Router(config)# ho R4
+R4(config)# int loo 44
+R4(config-if)# ip add 44.44.44.44 255.255.255.255
+R4(config-if)# no sh
+R4(config-if)# ex
+R4(config)# int gig 0/1
+R4(config-if)# ip add 192.168.4.1 255.255.255.0
+R4(config-if)# no sh
+R4(config-if)# int gig 0/1/0
+R4(config-if)# ip add 192.168.34.4 255.255.255.0
+R4(config-if)# no sh
+R4(config-if)# ex
+R4(config)# router ospf 100
+R4(config-router)# net 192.168.4.0 0.0.0.255 area 3
+R4(config-router)# net 192.168.34.0 0.0.0.255 area 3
+R4(config-router)# do wr
+Building configuration...
+[OK]
+--------------------------------------------
+R5:
+Router> en
+Router# conf t
+Router(config)# ho R5
+R5(config)# int loo 55
+R5(config-if)# ip add 55.55.55.55 255.255.255.255
+R5(config-if)# no sh
+R5(config-if)# ex
+R5(config)# int gig 0/1
+R5(config-if)# ip add 192.168.5.1 255.255.255.0
+R5(config-if)# no sh
+R5(config-if)# int gig 0/0/0
+R5(config-if)# ip add 192.168.15.5 255.255.255.0
+R5(config-if)# no sh
+R5(config-if)# ex
+R5(config)# router ospf 100
+R5(config-router)# net 192.168.5.0 0.0.0.255 area 1
+R5(config-router)# net 192.168.15.0 0.0.0.255 area 1
+R5(config-router)# do wr
+Building configuration...
+[OK]
+-------------------------------------------
+R6:
+Router> en
+Router# conf t
+Router(config)# ho R6
+R6(config)# int loo 66
+R6(config-if)# ip add 66.66.66.66 255.255.255.255
+R6(config-if)# no sh
+R6(config-if)# ex
+R6(config)# int gig 0/1
+R6(config-if)# ip add 192.168.6.1 255.255.255.0
+R6(config-if)# no sh
+R6(config-if)# int gig 0/0/0
+R6(config-if)# ip add 192.168.26.6 255.255.255.0
+R6(config-if)# no sh
+R6(config-if)# ex
+R6(config)# router ospf 100
+R6(config-router)# net 192.168.6.0 0.0.0.255 area 2
+R6(config-router)# net 192.168.26.0 0.0.0.255 area 2
+R6(config-router)# do wr
+Building configuration...
+[OK]
+-----------------------------------

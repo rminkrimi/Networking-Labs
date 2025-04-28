@@ -1,0 +1,16 @@
+RaminKarimi - 18 - Session 18 - Enabling IPv6-LLA on the router interface
+-----------------------------------
+Router0:
+Router(config)# int gig0/2
+Router(config-if)# no sh
+Router(config-if)# ipv6 enable
+Router(config-if)# do sho ipv6 int br
+GigabitEthernet0/0         [administratively down/down]
+    unassigned
+GigabitEthernet0/1         [administratively down/down]
+    unassigned
+GigabitEthernet0/2         [up/up]
+    FE80::250:FFF:FE61:B603
+Vlan1                      [administratively down/down]
+    unassigned
+

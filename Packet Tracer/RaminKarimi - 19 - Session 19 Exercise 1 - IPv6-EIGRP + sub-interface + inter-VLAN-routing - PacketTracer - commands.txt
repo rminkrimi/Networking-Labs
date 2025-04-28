@@ -1,0 +1,467 @@
+RaminKarimi - 19 - Session 19 Exercise 1 - IPv6-EIGRP + sub-interface + inter-VLAN-routing
+-----------------------------------
+MLS1:
+MLS1> en
+MLS1# conf t
+MLS1(config)# vlan 101
+MLS1(config-vlan)# vlan 102
+MLS1(config-vlan)# ex
+MLS1(config)# int ra gig 1/0/1-12
+MLS1(config-if-range)# sw mo ac
+MLS1(config-if-range)# sw ac vl 101
+MLS1(config-if-range)# int ra gig 1/0/13-24
+MLS1(config-if-range)# sw mo ac
+MLS1(config-if-range)# sw ac vlan 102
+MLS1(config-if-range)# do wr
+Building configuration...
+[OK]
+MLS1(config-if-range)# do sh vl br
+MLS1(config-if-range)# int gig 1/1/1
+MLS1(config-if)# sw tr encapsulation dot1q
+MLS1(config-if)# sw mo tr
+MLS1(config-if)# sw tr al vl 101,102
+MLS1(config-if)# do wr
+Building configuration...
+[OK]
+-----------------------------------
+Router1:
+Router> en
+Router# conf t
+Router(config)# ho Router1
+Router1(config)# int gig 0/1/0
+Router1(config-if)# ipv6 add FD00:2:3:12::1/64
+Router1(config-if)# no sh
+Router1(config-if)# int gig 0/2/0
+Router1(config-if)# ipv6 add FD00:2:3:18::1/64
+Router1(config-if)# no sh
+Router1(config-if)# int gig 0/3/0
+Router1(config-if)# ipv6 add FD00:2:3:114::1/64
+Router1(config-if)# no sh
+Router1(config-if)# do wr
+Building configuration...
+[OK]
+Router1(config-if)# int gig 0/0/0
+Router1(config-if)# no sh
+Router1(config-if)# int gig 0/0/0.101
+Router1(config-subif)# encapsulation dot1Q 101
+Router1(config-subif)# ipv6 add FD00:2:3:101::101/64
+Router1(config-subif)# no sh
+Router1(config-subif)# int gig 0/0/0.102
+Router1(config-subif)# encapsulation dot1Q 102
+Router1(config-subif)# ipv6 add FD00:2:3:102::102/64
+Router1(config-subif)# no sh
+Router1(config-subif)# do wr
+Building configuration...
+[OK]
+Router1(config-subif)# do ping FD00:2:3:101::1012
+Router1(config-subif)# do ping FD00:2:3:102::1022
+Router1(config-subif)# ex
+Router1(config)# ipv6 unicast-routing
+Router1(config)# ipv6 router eigrp 20
+Router1(config-rtr)# no sh
+Router1(config-rtr)# eigrp router-id 1.1.1.1
+Router1(config-rtr)# ex
+Router1(config)# int gig 0/0/0
+Router1(config-if)# ipv6 eigrp 20
+outer1(config)# int gig 0/0/0.101
+Router1(config-if)# ipv6 eigrp 20
+outer1(config)# int gig 0/0/0.102
+Router1(config-if)# ipv6 eigrp 20
+Router1(config-if)# int gig 0/1/0
+Router1(config-if)# ipv6 eigrp 20
+Router1(config-if)# int gig 0/2/0
+Router1(config-if)# ipv6 eigrp 20
+Router1(config-if)# int gig 0/3/0
+Router1(config-if)# ipv6 eigrp 20
+Router1(config-if)# do wr
+Building configuration...
+[OK]
+Router1(config-if)#
+---------------------
+copy to all routers:
+ipv6 unicast-routing
+ipv6 router eigrp 20
+no sh
+eigrp router-id 1.1.1.1
+ex
+int gig 0/0/0
+ipv6 eigrp 20
+int gig 0/0/0.101
+ipv6 eigrp 20
+int gig 0/0/0.102
+ipv6 eigrp 20
+int gig 0/1/0
+ipv6 eigrp 20
+int gig 0/2/0
+ipv6 eigrp 20
+int gig 0/3/0
+ipv6 eigrp 20
+do wr
+---------------------
+do sho ipv6 route
+do sho ipv6 eigrp neigh
+do sho ipv6 eigrp topolo
+-----------------------------------
+Router2:
+Router> en
+Router# conf t
+Router(config)# ho Router2
+Router2(config)# int gig 0/0/0
+Router2(config-if)# ipv6 add FD00:2:3:12::2/64
+Router2(config-if)# no sh
+Router2(config-if)# ipv6 add FD00:2:3:12::2/64
+Router2(config-if)# no sh
+Router2(config-if)# int gig 0/1/0
+Router2(config-if)# ipv6 add FD00:2:3:23::2/64
+Router2(config-if)# no sh
+Router2(config-if)# do wr
+Building configuration...
+[OK]
+Router2(config-if)# ex
+Router2(config)# ipv6 unicast-routing
+Router2(config)# ipv6 router eigrp 20
+Router2(config-rtr)# no sh
+Router2(config-rtr)# eigrp router-id 2.2.2.2
+Router2(config-rtr)# ex
+Router2(config)# int gig 0/0
+Router2(config-if)# ipv6 eigrp 20
+Router2(config-if)# int gig 0/1/0
+Router2(config-if)# ipv6 eigrp 20
+Router2(config-if)# int gig 0/2/0
+Router2(config-if)# ipv6 eigrp 20
+Router2(config-if)# int gig 0/3/0
+Router2(config-if)# ipv6 eigrp 20
+Router2(config-if)# do wr
+Building configuration...
+[OK]
+Router2(config-if)#
+-----------------------------------
+Router3:
+Router> en
+Router# conf t
+Router(config)# ho Router3
+Router3(config)# int gig 0/2/0
+Router3(config-if)# ipv6 add FD00:2:3:23::3/64
+Router3(config-if)# no sh
+Router3(config-if)# int gig 0/1/0
+Router3(config-if)# ipv6 add FD00:2:3:34::3/64
+Router3(config-if)# no sh
+Router3(config-if)# do wr
+Building configuration...
+[OK]
+Router3(config-if)#
+-----------------------------------
+Router4:
+Router> en
+Router# conf t
+Router(config)# ho Router4
+Router4(config)# int gig 0/2/0
+Router4(config-if)# ipv6 add FD00:2:3:34::4/64
+Router4(config-if)# no sh
+Router4(config-if)# int gig 0/1/0
+Router4(config-if)# ipv6 add FD00:2:3:45::4/64
+Router4(config-if)# no sh
+Router4(config-if)# do wr
+Building configuration...
+[OK]
+Router4(config-if)#
+-----------------------------------
+Router5:
+Router> en
+Router# conf t
+Router(config)# ho Router5
+Router5(config)# int gig 0/2/0
+Router5(config-if)# ipv6 add FD00:2:3:45::5/64
+Router5(config-if)# no sh
+Router5(config-if)# int gig 0/1/0
+Router5(config-if)# ipv6 add FD00:2:3:56::5/64
+Router5(config-if)# no sh
+Router5(config-if)# do wr
+Building configuration...
+[OK]
+Router5(config-if)#
+-----------------------------------
+Router6:
+Router> en
+Router# conf t
+Router(config)# ho Router6
+Router6(config)# int gig 0/2/0
+Router6(config-if)# ipv6 add FD00:2:3:56::6/64
+Router6(config-if)# no sh
+Router6(config-if)# int gig 0/1/0
+Router6(config-if)# ipv6 add FD00:2:3:67::6/64
+Router6(config-if)# no sh
+Router6(config-if)# do wr
+Building configuration...
+[OK]
+Router6(config-if)#
+-----------------------------------
+Router7:
+Router> en
+Router# conf t
+Router(config)# ho Router7
+Router7(config)# int gig 0/2/0
+Router7(config-if)# ipv6 add FD00:2:3:67::7/64
+Router7(config-if)# no sh
+Router7(config-if)# int gig 0/0/0
+Router7(config-if)# ipv6 add FD00:2:3:720::7/64
+Router7(config-if)# no sh
+Router7(config-if)# do wr
+Building configuration...
+[OK]
+Router7(config-if)#
+-----------------------------------
+Router8:
+Router> en
+Router# conf t
+Router(config)# ho Router8
+Router8(config)# int gig 0/0/0
+Router8(config-if)# ipv6 add FD00:2:3:18::1/64
+Router8(config-if)# no sh
+Router8(config-if)# ipv6 add FD00:2:3:18::8/64
+Router8(config-if)# no sh
+Router8(config-if)# int gig 0/1/0
+Router8(config-if)# ipv6 add FD00:2:3:89::8/64
+Router8(config-if)# no sh
+Router8(config-if)# do wr
+Building configuration...
+[OK]
+Router8(config-if)#
+-----------------------------------
+Router9:
+Router> en
+Router# conf t
+Router(config)# ho Router9
+Router9(config)# int gig 0/2/0
+Router9(config-if)# ipv6 add FD00:2:3:89::9/64
+Router9(config-if)# no sh
+Router9(config-if)# int gig 0/1/0
+Router9(config-if)# ipv6 add FD00:2:3:910::9/64
+Router9(config-if)# no sh
+Router9(config-if)# do wr
+Building configuration...
+[OK]
+Router9(config-if)#
+-----------------------------------
+Router10:
+Router> en
+Router# conf t
+Router(config)# ho Router10
+Router10(config)# int gig 0/2/0
+Router10(config-if)# ipv6 add FD00:2:3:910::10/64
+Router10(config-if)# no sh
+Router10(config-if)# int gig 0/1/0
+Router10(config-if)# ipv6 add FD00:2:3:1011::10/64
+Router10(config-if)# no sh
+Router10(config-if)# do wr
+Building configuration...
+[OK]
+Router10(config-if)#
+-----------------------------------
+Router11:
+Router> en
+Router# conf t
+Router(config)# ho Router11
+Router11(config)# int gig 0/2/0
+Router11(config-if)# ipv6 add FD00:2:3:1011::11/64
+Router11(config-if)# no sh
+Router11(config-if)# int gig 0/1/0
+Router11(config-if)# ipv6 add FD00:2:3:1112::11/64
+Router11(config-if)# no sh
+Router11(config-if)# do wr
+Building configuration...
+[OK]
+Router11(config-if)#
+-----------------------------------
+Router12:
+Router> en
+Router# conf t
+Router(config)# ho Router12
+Router12(config)# int gig 0/2/0
+Router12(config-if)# ipv6 add FD00:2:3:1112::12/64
+Router12(config-if)# no sh
+Router12(config-if)# int gig 0/1/0
+Router12(config-if)# ipv6 add FD00:2:3:1213::12/64
+Router12(config-if)# no sh
+Router12(config-if)# do wr
+Building configuration...
+[OK]
+Router12(config-if)#
+-----------------------------------
+Router13:
+Router> en
+Router# conf t
+Router(config)# ho Router13
+Router13(config)# int gig 0/2/0
+Router13(config-if)# ipv6 add FD00:2:3:1213::13/64
+Router13(config-if)# no sh
+Router13(config-if)# int gig 0/0/0
+Router13(config-if)# ipv6 add FD00:2:3:1320::13/64
+Router13(config-if)# no sh
+Router13(config-if)# do wr
+Building configuration...
+[OK]
+Router13(config-if)#
+-----------------------------------
+Router14:
+Router> en
+Router# conf t
+Router(config)# ho Router14
+Router14(config)# int gig 0/0/0
+Router14(config-if)# ipv6 add FD00:2:3:114::14/64
+Router14(config-if)#no sh
+Router14(config-if)# int gig 0/1/0
+Router14(config-if)# ipv6 add FD00:2:3:1415::14/64
+Router14(config-if)# no sh
+Router14(config-if)#
+Router14(config-if)# do wr
+Building configuration...
+[OK]
+Router14(config-if)#
+-----------------------------------
+Router15:
+Router> en
+Router# conf t
+Router(config)# ho Router15
+Router15(config)# int gig 0/2/0
+Router15(config-if)# ipv6 add FD00:2:3:1415::15/64
+Router15(config-if)# no sh
+Router15(config-if)# int gig 0/1/0
+Router15(config-if)# ipv6 add FD00:2:3:1516::15/64
+Router15(config-if)# no sh
+Router15(config-if)# do wr
+Building configuration...
+[OK]
+Router15(config-if)#
+-----------------------------------
+Router16:
+Router> en
+Router# conf t
+Router(config)# ho Router16
+Router16(config)# int gig 0/2/0
+Router16(config-if)# ipv6 add FD00:2:3:1516::16/64
+Router16(config-if)# no sh
+Router16(config-if)# int gig 0/1/0
+Router16(config-if)# ipv6 add FD00:2:3:1617::16/64
+Router16(config-if)# no sh
+Router16(config-if)# do wr
+Building configuration...
+[OK]
+Router16(config-if)#
+-----------------------------------
+Router17:
+Router> en
+Router# conf t
+Router(config)# ho Router17
+Router17(config)# int gig 0/2/0
+Router17(config-if)# ipv6 add FD00:2:3:1617::17/64
+Router17(config-if)# no sh
+Router17(config-if)# int gig 0/1/0
+Router17(config-if)# ipv6 add FD00:2:3:1718::17/64
+Router17(config-if)# no sh
+Router17(config-if)# do wr
+Building configuration...
+[OK]
+Router17(config-if)#
+-----------------------------------
+Router18:
+Router> en
+Router# conf t
+Router(config)# ho Router18
+Router18(config)# int gig 0/2/0
+Router18(config-if)# ipv6 add FD00:2:3:1718::18/64
+Router18(config-if)# no sh
+Router18(config-if)# do wr
+Building configuration...
+[OK]
+Router18(config-if)# int gig 0/1/0
+Router18(config-if)# ipv6 add FD00:2:3:1819::18/64
+Router18(config-if)# no sh
+Router18(config-if)# do wr
+Building configuration...
+[OK]
+Router18(config-if)#
+-----------------------------------
+Router19:
+Router> en
+Router# conf t
+Router(config)# ho Router19
+Router19(config)# int gig 0/2/0
+Router19(config-if)# ipv6 add FD00:2:3:1819::19/64
+Router19(config-if)# no sh
+Router19(config-if)# int gig 0/1/0
+Router19(config-if)# int gig 0/0/0
+Router19(config-if)# ipv6 add FD00:2:3:1920::19/64
+Router19(config-if)# no sh
+Router19(config-if)# do wr
+Building configuration...
+[OK]
+Router19(config-if)#
+-----------------------------------
+Router20:
+Router> en
+Router# conf t
+Router(config)# ho Router20
+Router20(config)# int gig 0/1/0
+Router20(config-if)# ipv6 add FD00:2:3:720::20/64
+Router20(config-if)# no sh
+Router20(config-if)# int gig 0/2/0
+Router20(config-if)# ipv6 add FD00:2:3:1320::20/64
+Router20(config-if)# no sh
+Router20(config-if)# int gig 0/3/0
+Router20(config-if)# ipv6 add FD00:2:3:1920::20/64
+Router20(config-if)# no sh
+Router20(config-if)# do wr
+Router20(config-if)# int gig 0/0/0
+Router20(config-if)# no sh
+Router20(config-if)# int gig 0/0/0.201
+Router20(config-subif)# encapsulation dot1Q 201
+Router20(config-subif)# ipv6 add FD00:2:3:201::201/64
+Router20(config-subif)# no sh
+Router20(config-subif)# int gig 0/0/0.202
+Router20(config-subif)# encapsulation dot1Q 202
+Router20(config-subif)# ipv6 add FD00:2:3:202::202/64
+Router20(config-subif)# no sh 
+Router20(config-subif)# do ping FD00:2:3:201::2012
+Router20(config-subif)# do ping FD00:2:3:202::2022
+Router20(config-subif)# ex
+Router20(config)# ipv6 unicast-routing
+ipv6 unicast-routing
+ipv6 router eigrp 20
+no sh
+eigrp router-id 1.1.1.1
+ex
+int gig 0/0/0
+ipv6 eigrp 20
+int gig 0/0/0.201
+ipv6 eigrp 20
+int gig 0/0/0.202
+ipv6 eigrp 20
+int gig 0/1/0
+ipv6 eigrp 20
+int gig 0/2/0
+ipv6 eigrp 20
+int gig 0/3/0
+ipv6 eigrp 20
+do wr
+do sho ipv6 route
+do sho ipv6 eigrp neigh
+do sho ipv6 eigrp topolo
+-----------------------------------
+MLS2> en
+MLS2# conf t
+MLS2(config)# vlan 201
+MLS2(config-vlan)# vlan 202
+MLS2(config-vlan)# ex
+MLS2(config)# int ra gig 1/0/1-12
+MLS2(config-if-range)# sw mo ac
+MLS2(config-if-range)# sw ac vl 201
+MLS2(config-if-range)# int ra gig 1/0/13-24
+MLS2(config-if-range)# sw mo ac
+MLS2(config-if-range)# sw ac vlan 202
+MLS2(config-if-range)# int gig 1/1/1
+MLS2(config-if)# sw mo tr
+MLS2(config-if)# sw tr al vl 201,202
+MLS2(config-if)# do wr
+MLS2(config-if-range)# do sh vl br
+-----------------------------------

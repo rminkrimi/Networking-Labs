@@ -1,0 +1,209 @@
+RaminKarimi - 04 - Inter-VLAN with MLS and and 4 servers with different network addresses
+RaminKarimi - 06 - Inter-VLAN with MLS and Port-channel
+-------------------------------------------
+-------------------------------------------
+Switchsection1-1 :
+
+vlan 11
+
+interface FastEthernet0/11-20
+ switchport mode access
+ switchport access vlan 11
+
+interface range FastEthernet0/1-10
+ switchport mode trunk
+ switchport trunk allowed vlan 11
+ duplex full
+ channel-group 1 mode passive
+
+interface Port-channel1
+ switchport mode trunk
+-------------------------------------------
+-------------------------------------------
+Switchsection1-2 :
+
+vlan 12
+
+interface FastEthernet0/1-10
+ switchport mode access
+ switchport access vlan 12
+
+interface range FastEthernet0/11-20
+ switchport mode trunk
+ switchport trunk allowed vlan 12
+ duplex full
+ channel-group 2 mode passive
+
+interface Port-channel2
+ switchport mode trunk
+-------------------------------------------
+-------------------------------------------
+Switchsection1 :
+
+vlan 11-12
+
+interface range FastEthernet0/1-10
+ switchport mode trunk
+ switchport trunk allowed vlan 11
+ duplex full
+ channel-group 1 mode active
+
+interface Port-channel1
+ switchport mode trunk
+
+interface range FastEthernet0/11-20
+ switchport mode trunk
+ switchport trunk allowed vlan 12
+ duplex full
+ channel-group 2 mode passive
+
+interface Port-channel2
+ switchport mode trunk
+
+interface GigabitEthernet0/1
+ switchport mode trunk
+ switchport trunk allowed vlan 11-12
+-------------------------------------------
+-------------------------------------------
+-------------------------------------------
+Switchsection2-1 :
+
+vlan 21
+
+interface FastEthernet0/11-20
+ switchport mode access
+ switchport access vlan 21
+
+interface range FastEthernet0/1-10
+ switchport mode trunk
+ switchport trunk allowed vlan 21
+ duplex full
+ channel-group 1 mode passive
+
+interface Port-channel1
+ switchport mode trunk
+-------------------------------------------
+-------------------------------------------
+Switchsection2-2 :
+
+vlan 22,31-34
+
+interface FastEthernet0/1-10
+ switchport mode access
+ switchport access vlan 22
+
+interface range FastEthernet0/11-20
+ switchport mode trunk
+ switchport trunk allowed vlan 22,31-34
+ duplex full
+ channel-group 2 mode passive
+
+interface Port-channel2
+ switchport mode trunk
+
+interface range GigabitEthernet0/1-2
+ switchport mode trunk
+ switchport trunk allowed vlan 31-34
+ duplex full
+ channel-group 3 mode active
+
+interface Port-channel3
+ switchport mode trunk
+-------------------------------------------
+-------------------------------------------
+Switchsection2 :
+
+vlan 21-22,31-34
+
+interface range FastEthernet0/1-10
+ switchport mode trunk
+ switchport trunk allowed vlan 21
+ duplex full
+ channel-group 1 mode active
+
+interface Port-channel1
+ switchport mode trunk
+
+interface range FastEthernet0/11-20
+ switchport mode trunk
+ switchport trunk allowed vlan 22,31-34
+ duplex full
+ channel-group 2 mode passive
+
+interface Port-channel2
+ switchport mode trunk
+
+interface GigabitEthernet0/2
+ switchport mode trunk
+ switchport trunk allowed vlan 21-22,31-34
+-------------------------------------------
+-------------------------------------------
+SwitchServers :
+
+vlan 31-34
+
+interface FastEthernet0/1
+ switchport mode access
+ switchport access vlan 31
+
+interface FastEthernet0/2
+ switchport mode access
+ switchport access vlan 32
+
+interface FastEthernet0/3
+ switchport mode access
+ switchport access vlan 33
+
+interface FastEthernet0/4
+ switchport mode access
+ switchport access vlan 34
+
+interface range GigabitEthernet0/1-2
+ switchport mode trunk
+ switchport trunk allowed vlan 31-34
+ duplex full
+ channel-group 3 mode passive
+
+interface Port-channel3
+ switchport mode trunk
+-------------------------------------------
+-------------------------------------------
+-------------------------------------------
+MLS-Core :
+
+ip routing
+
+vlan 11-12,21-22,31-34
+
+interface Vlan11
+ ip address 192.168.11.11 255.255.255.0
+
+interface Vlan12
+ ip address 192.168.12.12 255.255.255.0
+
+interface Vlan21
+ ip address 192.168.21.21 255.255.255.0
+
+interface Vlan22
+ ip address 192.168.22.22 255.255.255.0
+
+interface Vlan31
+ ip address 192.168.31.31 255.255.255.0
+
+interface Vlan32
+ mac-address 0001.437b.b206
+ ip address 192.168.32.32 255.255.255.0
+
+interface Vlan33
+ ip address 192.168.33.33 255.255.255.0
+
+interface Vlan34
+ ip address 192.168.34.34 255.255.255.0
+
+interface GigabitEthernet1/0/1
+ switchport mode trunk
+ switchport trunk allowed vlan 11-12
+
+interface GigabitEthernet1/0/2
+ switchport mode trunk
+ switchport trunk allowed vlan 21-22,31-34

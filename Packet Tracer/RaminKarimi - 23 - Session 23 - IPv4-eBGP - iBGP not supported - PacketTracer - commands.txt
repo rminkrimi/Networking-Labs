@@ -1,0 +1,138 @@
+RaminKarimi - 23 - Session 23 - IPv4-eBGP - iBGP not supported
+-----------------------------------
+Router1AS65501> en
+Router1AS65501# conf t
+Router1AS65501(config)# int loo 1
+Router1AS65501(config-if)# ip add 1.0.0.1 255.255.255.255
+Router1AS65501(config-if)# int gig 0/1/0
+Router1AS65501(config-if)# ip add 192.168.101.101 255.255.255.0
+Router1AS65501(config-if)# no sh
+Router1AS65501(config-if)# int gig 0/0/0
+Router1AS65501(config-if)# ip add 192.168.100.1 255.255.255.0
+Router1AS65501(config-if)# no sh
+Router1AS65501(config-if)# int gig 0/2/0
+Router1AS65501(config-if)# ip add 192.168.12.1 255.255.255.0
+Router1AS65501(config-if)# no sh
+Router1AS65501(config-if)# do wr
+
+Router1AS65501(config-if)# ex
+Router1AS65501(config)# router bgp 65501
+Router1AS65501(config-router)# bgp router-id 1.0.0.1
+Router1AS65501(config-router)# nei 192.168.12.2 re 65502
+Router1AS65501(config-router)#%BGP-5-ADJCHANGE: neighbor 192.168.12.2 Up
+
+Router1AS65501(config-router)# net 1.0.0.1 mask 255.255.255.255
+Router1AS65501(config-router)# net 192.168.101.0 mask 255.255.255.0
+Router1AS65501(config-router)# do wr
+---------------------------------------------
+Router2AS65501> en
+Router2AS65501# conf t
+Router2AS65501(config)# int loo 1
+Router2AS65501(config-if)# ip add 1.0.0.2 255.255.255.255
+Router2AS65501(config-if)# no sh
+Router2AS65501(config-if)# int gig 0/0/0
+Router2AS65501(config-if)# ip add 192.168.100.2 255.255.255.0
+Router2AS65501(config-if)# no sh
+Router2AS65501(config-if)# int gig 0/3/0
+Router2AS65501(config-if)# ip add 192.168.13.1 255.255.255.0
+Router2AS65501(config-if)# no sh
+Router2AS65501(config-if)# int gig 0/1/0
+Router2AS65501(config-if)# ip add 192.168.102.102 255.255.255.0
+Router2AS65501(config-if)# no sh
+Router2AS65501(config-if)# do wr
+
+Router2AS65501(config-if)# ex
+Router2AS65501(config)# router bgp 65501
+Router2AS65501(config-router)# bgp router-id 1.0.0.2
+Router2AS65501(config-router)# nei 192.168.100.1 re 65501
+Router2AS65501(config-router)#
+%Cisco Packet Tracer does not support internal BGP in this version. Only external neighbors are supported.
+
+Router2AS65501(config-router)# nei 192.168.13.3 re 65503
+Router2AS65501(config-router)#%BGP-5-ADJCHANGE: neighbor 192.168.13.3 Up
+	
+Router2AS65501(config-router)# net 1.0.0.2 mask 255.255.255.255
+Router2AS65501(config-router)# net 192.168.102.0 mask 255.255.255.0
+Router2AS65501(config-router)# do wr
+-----------------------------------
+RouterAS65502>
+RouterAS65502> en 
+RouterAS65502# conf t
+RouterAS65502(config)# int loo 2
+RouterAS65502(config-if)# ip add 2.2.2.2 255.255.255.255
+RouterAS65502(config-if)# int gig 0/2/0
+RouterAS65502(config-if)# ip add 192.168.12.2 255.255.255.0
+RouterAS65502(config-if)# no sh
+RouterAS65502(config-if)# int gig 0/0/0
+RouterAS65502(config-if)# ip add 192.168.24.2 255.255.255.0
+RouterAS65502(config-if)# no sh
+RouterAS65502(config-if)# int gig 0/1/0
+RouterAS65502(config-if)# ip add 192.168.2.2 255.255.255.0
+RouterAS65502(config-if)# no sh
+RouterAS65502(config-if)# do wr
+
+RouterAS65502(config-if)# ex
+RouterAS65502(config)# router bgp 65502
+RouterAS65502(config-router)# bgp router-id 2.2.2.2
+RouterAS65502(config-router)# nei 192.168.12.1 re 65501
+RouterAS65502(config-router)# nei 192.168.24.4 re 65504
+RouterAS65502(config-router)# net 2.2.2.2 mask 255.255.255.255 
+RouterAS65502(config-router)# net 192.168.2.0 mask 255.255.255.0 
+RouterAS65502(config-router)# do wr
+-----------------------------------
+RouterAS65503> en 
+RouterAS65503# conf t
+RouterAS65503(config)# int loo 3
+RouterAS65503(config-if)# ip add 3.3.3.3 255.255.255.255
+RouterAS65503(config-if)# int gig 0/1/0
+RouterAS65503(config-if)# ip add 192.168.3.3 255.255.255.0 
+RouterAS65503(config-if)# no sh
+RouterAS65503(config-if)# int gig 0/3/0
+RouterAS65503(config-if)# ip add 192.168.34.3 255.255.255.0 
+RouterAS65503(config-if)# no sh
+RouterAS65503(config-if)# int gig 0/3/0
+RouterAS65503(config-if)# ip add 192.168.13.3 255.255.255.0 
+RouterAS65503(config-if)# no sh
+RouterAS65503(config-if)# int gig 0/0/0
+RouterAS65503(config-if)# ip add 192.168.34.3 255.255.255.0 
+RouterAS65503(config-if)# no sh
+RouterAS65503(config-if)# ex
+RouterAS65503(config)# router bgp 65503
+RouterAS65503(config-router)# bgp router-id 3.3.3.3
+RouterAS65503(config-router)# nei 192.168.13.1 re 65501
+RouterAS65503(config-router)# nei 192.168.34.4 re 65504
+RouterAS65503(config-router)# net 3.3.3.3 mask 255.255.255.255
+RouterAS65503(config-router)# net 192.168.3.0 mask 255.255.255.0
+RouterAS65503(config-router)# do wr
+-----------------------------------
+Router> en 
+Router#conf t
+Router(config)# ho RouterAS65504
+RouterAS65504(config)# int loo 4
+RouterAS65504(config-if)# ip add 4.4.4.4 255.255.255.255
+RouterAS65504(config-if)# int gig 0/2/0
+RouterAS65504(config-if)# ip add 192.168.24.4 255.255.255.0
+RouterAS65504(config-if)# no sh
+RouterAS65504(config-if)# int gig 0/3/0
+RouterAS65504(config-if)# ip add 192.168.34.4 255.255.255.0
+RouterAS65504(config-if)# no sh
+RouterAS65504(config-if)# int gig 0/1/0
+RouterAS65504(config-if)# ip add 192.168.4.4 255.255.255.0
+RouterAS65504(config-if)# no sh
+RouterAS65504(config-if)# do wr
+
+RouterAS65504(config-if)# ex
+RouterAS65503(config-router)# ex
+RouterAS65504(config)# router bgp 65504
+RouterAS65504(config-router)# bgp rou 4.4.4.4
+RouterAS65504(config-router)# nei 192.168.24.2 re 65502
+RouterAS65504(config-router)#%BGP-5-ADJCHANGE: neighbor 192.168.24.2 Up
+
+RouterAS65504(config-router)# nei 192.168.34.3 re 65503
+RouterAS65504(config-router)#%BGP-5-ADJCHANGE: neighbor 192.168.34.3 Up
+
+RouterAS65504(config-router)# net 4.4.4.4 mask 255.255.255.255
+RouterAS65504(config-router)# net 192.168.4.0 mask 255.255.255.0
+RouterAS65504(config-router)# do wr
+Building configuration...
+-----------------------------------

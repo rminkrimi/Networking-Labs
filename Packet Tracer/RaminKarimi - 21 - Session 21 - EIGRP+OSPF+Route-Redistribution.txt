@@ -1,0 +1,190 @@
+Router1> en
+Router1# conf t
+Router1(config)# int loo 1
+Router1(config-if)# ip add 1.1.1.1 255.255.255.255
+Router1(config-if)# no sh
+Router1(config-if)# int gi 0/2/0
+Router1(config-if)# ip add 192.168.12.1 255.255.255.0
+Router1(config-if)# no sh
+Router1(config-if)# int gi 0/3/0
+Router1(config-if)# ip add 192.168.13.1 255.255.255.0
+Router1(config-if)# no sh
+Router1(config-if)# do wr
+Building configuration...
+[OK]
+Router1(config-if)# ex
+Router1(config)# router eigrp 5
+Router1(config-router)# net 192.168.12.0 0.0.0.255
+Router1(config-router)# ex
+Router1(config)# router ospf 5
+Router1(config-router)# network 192.168.13.0 0.0.0.255 area 0
+Router1(config-router)# do wr
+Building configuration...
+[OK]
+Router1>
+Router1> en
+Router1# conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+Router1(config)# router eigrp 5
+Router1(config-router)# red
+Router1(config-router)# redistribute ?
+  bgp        Border Gateway Protocol (BGP)
+  connected  Connected
+  eigrp      Enhanced Interior Gateway Routing Protocol (EIGRP)
+  metric     Metric for redistributed routes
+  ospf       Open Shortest Path First (OSPF)
+  rip        Routing Information Protocol (RIP)
+  static     Static routes
+Router1(config-router)# redistribute  ospf 5 ?
+  match   Redistribution of OSPF routes
+  metric  Metric for redistributed routes
+  <cr>
+Router1(config-router)# redistribute  ospf 5 ?
+  match   Redistribution of OSPF routes
+  metric  Metric for redistributed routes
+  <cr>
+Router1(config-router)# redistribute  ospf 5 met
+Router1(config-router)# redistribute  ospf 5 metric ?
+  <1-4294967295>  Bandwidth metric in Kbits per second
+Router1(config-router)# redistribute  ospf 5 metric 1000000 ?
+  <0-4294967295>  EIGRP delay metric, in 10 microsecond units
+Router1(config-router)# redistribute  ospf 5 metric 1000000 10 ?
+  <0-255>  EIGRP reliability metric where 255 is 100% reliable
+Router1(config-router)# redistribute  ospf 5 metric 1000000 10 255 ?
+  <1-255>  EIGRP Effective bandwidth metric (Loading) where 255 is 100% loaded
+Router1(config-router)# redistribute  ospf 5 metric 1000000 10 255 1 ?
+  <1-65535>  EIGRP MTU of the path
+Router1(config-router)# redistribute  ospf 5 metric 1000000 10 255 1 1500 ?
+  match  Redistribution of OSPF routes
+  <cr>
+Router1(config-router)# redistribute  ospf 5 metric 1000000 10 255 1 1500 
+Router1(config-router)# ex
+***********
+Router1(config)# router ospf 5
+Router1(config-router)#red
+Router1(config-router)#redistribute ?
+  bgp        Border Gateway Protocol (BGP)
+  connected  Connected
+  eigrp      Enhanced Interior Gateway Routing Protocol (EIGRP)
+  metric     Metric for redistributed routes
+  ospf       Open Shortest Path First (OSPF)
+  rip        Routing Information Protocol (RIP)
+  static     Static routes
+Router1(config-router)#redistribute eig
+Router1(config-router)#redistribute eigrp ?
+  <1-65535>  Autonomous system number
+Router1(config-router)#redistribute eigrp 5 ?
+  metric       Metric for redistributed routes
+  metric-type  OSPF/IS-IS exterior metric type for redistributed routes
+  subnets      Consider subnets for redistribution into OSPF
+  tag          Set tag for routes redistributed into OSPF
+  <cr>
+Router1(config-router)#redistribute eigrp 5 metric ?
+  <0-16777214>  OSPF default metric
+Router1(config-router)#redistribute eigrp 5 metric-type  ?
+  1  Set OSPF External Type 1 metrics
+  2  Set OSPF External Type 2 metrics
+Router1(config-router)# redistribute eigrp 5 metric-type 2
+% Only classful networks will be redistributed
+Router1(config-router)# do wr
+------------------
+Router2> en 
+Router2# conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+Router2(config)# int loo 2
+Router2(config-if)# ip add 2.2.2.2 255.255.255.255
+Router2(config-if)# no sh
+Router2(config-if)# int gig 0/2/0
+Router2(config-if)# ip add 192.168.12.2 255.255.255.0
+Router2(config-if)# no sh
+Router2(config-if)# int gig 0/0/0
+Router2(config-if)# ip add 192.168.24.2 255.255.255.0
+Router2(config-if)# no sh
+Router2(config-if)# int gig 0/0
+Router2(config-if)# ip add 192.168.2.2 255.255.255.0
+Router2(config-if)# no sh
+Router2(config-if)# do wr
+Building configuration...
+[OK]
+Router2(config-if)# ex
+Router2(config)# router eigrp 5
+Router2(config-router)# net
+Router2(config-router)# network 192.168.12.0 0.0.0.255
+Router2(config-router)# network 192.168.24.0 0.0.0.255
+Router2(config-router)# network 192.168.2.0 0.0.0.255
+Router2(config-router)# do wr
+Building configuration...
+[OK]
+-------------------------
+Router4> en 
+Router4# conf t
+Router4(config)# int loo 4
+Router4(config-if)# ip add 4.4.4.4 255.255.255.255
+Router4(config-if)# no sh
+Router4(config-if)# int gig 0/0/0
+Router4(config-if)# ip add 192.168.24.4 255.255.255.0
+Router4(config-if)# no sh
+Router4(config-if)# int gig 0/0
+Router4(config-if)# ip add 192.168.4.4 255.255.255.0
+Router4(config-if)# no sh
+Router4(config-if)# do wr
+Building configuration...
+[OK]
+Router4(config-if)# ex
+Router4(config)# router eigrp 5
+Router4(config-router)# net 192.168.24.0 0.0.0.255
+Router4(config-router)# net 192.168.4.0 0.0.0.255
+Router4(config-router)# do wr
+Building configuration...
+[OK]
+Router4(config-router)#
+-----------------------
+Router3> en
+Router3# conf t
+Router3(config)# int loo 3
+Router3(config-if)# ip add 3.3.3.3 255.255.255.255
+Router3(config-if)# no sh
+Router3(config-if)# int gig 0/3/0
+Router3(config-if)# ip add 192.168.13.3 255.255.255.0
+Router3(config-if)# no sh
+Router3(config-if)# int gig 0/0/0
+Router3(config-if)# ip add 192.168.35.3 255.255.255.0
+Router3(config-if)# no sh
+Router3(config-if)# int gig 0/0
+Router3(config-if)# ip add 192.168.3.3 255.255.255.0
+Router3(config-if)# no sh
+Router3(config-if)# do wr
+Building configuration...
+[OK]
+Router3(config-if)# ex
+Router3(config)# router ospf 5
+Router3(config-router)# net 192.168.13.0 0.0.0.255 area 0
+Router3(config-router)# net 192.168.35.0 0.0.0.255 area 0
+Router3(config-router)# net 192.168.3.0 0.0.0.255 area 0
+Router3(config-router)# do wr
+Building configuration...
+[OK]
+Router3(config-router)#
+---------------------------
+Router5> en 
+Router5# conf t
+Router5(config)# int loo 5
+Router5(config-if)# ip add 5.5.5.5 255.255.255.255
+Router5(config-if)# no sh
+Router5(config-if)# int gig 0/0/0
+Router5(config-if)# ip add 192.168.35.5 255.255.255.0
+Router5(config-if)# no sh
+Router5(config-if)# int gig 0/0
+Router5(config-if)# ip add 192.168.5.5 255.255.255.0
+Router5(config-if)# no sh
+Router5(config-if)# do wr
+Building configuration...
+[OK]
+Router5(config-if)# ex
+Router5(config)# router ospf 5
+Router5(config-router)# net 192.168.5.0 0.0.0.255 area 0
+Router5(config-router)# net 192.168.35.0 0.0.0.255 area 0
+Router5(config-router)#do wr
+Building configuration...
+[OK]
+Router5(config-router)#

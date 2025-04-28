@@ -1,0 +1,25 @@
+RaminKarimi - 07 - Session 7 - Static routing
+------------------------------------------------
+R1 :
+interface GigabitEthernet0/0
+ ip address 10.10.10.1 255.255.255.252
+ duplex auto
+ speed auto
+interface GigabitEthernet0/1
+ ip address 85.185.235.235 255.255.255.192
+ duplex auto
+ speed auto
+ip classless
+ip route 172.16.1.0 255.255.255.128 10.10.10.2 
+------------------------------------------------
+R2 :
+interface GigabitEthernet0/0
+ ip address 10.10.10.2 255.255.255.252
+ duplex auto
+ speed auto
+interface GigabitEthernet0/2
+ ip address 172.16.1.1 255.255.255.128
+ duplex auto
+ speed auto
+ip classless
+ip route 85.185.235.192 255.255.255.192 10.10.10.1 

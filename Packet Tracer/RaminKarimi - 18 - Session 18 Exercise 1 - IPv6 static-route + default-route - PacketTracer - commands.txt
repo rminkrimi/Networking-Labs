@@ -1,0 +1,130 @@
+RaminKarimi - 18 - Session 18 Exercise 1 - IPv6 static-route + default-route
+-----------------------------------
+Router1:
+Router> en
+Router# conf t
+Router(config)# host Router1
+Router1(config)# int loo 1
+Router1(config-if)# ipv6 add 1::1/128
+Router1(config-if)# no sh
+Router1(config-if)# int g0/0
+Router1(config-if)# ipv6 add FD00:2222:3333:1::1/64
+Router1(config-if)# no sh
+Router1(config-if)# int g0/1
+Router1(config-if)# ipv6 add FD00:2222:3333:12::1/64
+Router1(config-if)# no sh
+Router1(config-if)# int g0/2
+Router1(config-if)# ipv6 add FD00:2222:3333:14::1/64
+Router1(config-if)# no sh
+Router1(config-if)# do ping FD00:2222:3333:1::11
+!!!!!
+Success rate is 100 percent (5/5), round-trip min/avg/max = 0/0/1 ms
+Router1(config-if)#ex
+Router1(config)# ipv6 unicast-routing
+Router1(config)# ipv6 route FD00:2222:3333:2::/64 FD00:2222:3333:12::2
+Router1(config)# ipv6 route FD00:2222:3333:23::/64 FD00:2222:3333:12::2
+Router1(config)# ipv6 route FD00:2222:3333:4::/64 FD00:2222:3333:14::4
+Router1(config)# ipv6 route FD00:2222:3333:45::/64 FD00:2222:3333:14::4
+Router1(config)#do wr
+Router1(config)# ipv6 route ::/0 FD00:2222:3333:12::2
+Router1(config)# ipv6 route ::/0 FD00:2222:3333:14::4
+-----------------------------------
+Router2:
+Router> en
+Router# conf t
+Router(config)# ho Router2
+Router2(config)# int loo 2
+Router2(config-if)# ipv6 add 2::2/128
+Router2(config-if)# no sh
+Router2(config-if)# int g0/0
+Router2(config-if)# ipv6 add FD00:2222:3333:2::2/64
+Router2(config-if)# no sh
+Router2(config-if)# int g0/1
+Router2(config-if)# ipv6 add FD00:2222:3333:23::2/64
+Router2(config-if)# no sh
+Router2(config-if)# int g0/2
+Router2(config-if)# ipv6 add FD00:2222:3333:12::2/64
+Router2(config-if)# no sh
+Router2(config-if)# do ping FD00:2222:3333:2::22
+!!!!!
+Success rate is 100 percent (5/5), round-trip min/avg/max = 0/0/1 ms
+Router2(config-if)#ex
+Router2(config)# ipv6 unicast-routing
+Router2(config)# ipv6 route FD00:2222:3333:1::/64 FD00:2222:3333:12::1
+Router2(config)# ipv6 route FD00:2222:3333:3::/64 FD00:2222:3333:23::3
+Router2(config)# do wr
+Router2(config)# ipv6 route ::/0 FD00:2222:3333:12::1
+-----------------------------------
+Router3:
+Router> en
+Router# conf t
+Router(config)# ho Router3
+Router3(config)# int l 3
+Router3(config-if)# ipv6 add 3::3/128
+Router3(config-if)# no sh
+Router3(config-if)# int g0/0
+Router3(config-if)# ipv6 add FD00:2222:3333:3::3/64
+Router3(config-if)# no sh
+Router3(config-if)# int g0/2
+Router3(config-if)# ipv6 add FD00:2222:3333:23::3/64
+Router3(config-if)# no sh
+Router3(config-if)#do wr
+Router3(config-if)# do ping FD00:2222:3333:3::32
+!!!!!
+Success rate is 100 percent (5/5), round-trip min/avg/max = 0/0/0 ms
+Router3(config-if)#ex
+Router3(config)# ipv6 unicast-routing 
+Router3(config)# ipv6 route FD00:2222:3333:2::/64 FD00:2222:3333:23::2
+Router3(config)# do wr
+Router3(config)# ipv6 route ::/0 FD00:2222:3333:23::2
+-----------------------------------
+Router4:
+Router>
+Router> en 
+Router# conf t
+Router(config)# ho Router4
+Router4(config)# int l 4
+Router4(config-if)# ipv6 add 4::4/128
+Router4(config-if)# int g0/0
+Router4(config-if)# ipv6 add FD00:2222:3333:4::4/64
+Router4(config-if)# no sh
+Router4(config-if)# int g0/1
+Router4(config-if)# ipv6 add FD00:2222:3333:14::4/64
+Router4(config-if)# no sh
+Router4(config-if)# int g0/2
+Router4(config-if)# ipv6 add FD00:2222:3333:45::4/64
+Router4(config-if)# no sh
+Router4(config-if)# do wr
+Router4(config-if)# do ping FD00:2222:3333:4::42
+!!!!!
+Success rate is 100 percent (5/5), round-trip min/avg/max = 0/0/0 ms
+Router4(config-if)#ex
+Router4(config)# ipv6 unicast-routing 
+Router4(config)# ipv6 route FD00:2222:3333:1::/64 FD00:2222:3333:14::1
+Router4(config)# ipv6 route FD00:2222:3333:5::/64 FD00:2222:3333:45::5
+Router4(config)# do wr
+Router4(config)# ipv6 route ::/0 FD00:2222:3333:14::1
+-----------------------------------
+Router5:
+Router> en
+Router# conf t
+Router(config)# ho Router5
+Router5(config)# int l 5
+Router5(config-if)# ipv6 add 5::5/128
+Router5(config-if)# no sh
+Router5(config-if)# int g0/0
+Router5(config-if)# ipv6 add FD00:2222:3333:5::5/64
+Router5(config-if)# no sh
+Router5(config-if)# int g0/1
+Router5(config-if)# ipv6 add FD00:2222:3333:45::5/64
+Router5(config-if)# no sh
+Router5(config-if)# do wr
+Router5(config-if)# do ping FD00:2222:3333:5::51
+!!!!!
+Success rate is 100 percent (5/5), round-trip min/avg/max = 0/0/1 ms
+Router5(config-if)#
+Router5(config-if)#ex
+Router5(config)# ipv6 unicast-routing
+Router5(config)# ipv6 route FD00:2222:3333:4::/64 FD00:2222:3333:45::4
+Router5(config)# do wr
+-----------------------------------

@@ -1,0 +1,248 @@
+RaminKarimi - 06 - Session 6 Exercise 1 - Inter-VLAN with MLS with different network addresses and Port-channel and DHCP
+-------------------------------------------
+-------------------------------------------
+MLS-VLAN11 : 192.168.11.0/24
+
+vlan 11
+
+interface GigabitEthernet1/0/5-24
+ switchport mode access
+ switchport access vlan 11
+
+interface GigabitEthernet1/0/1-4
+ switchport mode trunk
+ switchport trunk allowed vlan 11
+ duplex full
+ channel-group 11 mode on
+
+interface Port-channel11
+ switchport mode trunk
+ switchport trunk allowed vlan 11
+-------------------------------------------
+-------------------------------------------
+MLS-VLAN12 : 192.168.12.0/24
+
+vlan 12
+
+interface GigabitEthernet1/0/5-24
+ switchport mode access
+ switchport access vlan 12
+
+interface GigabitEthernet1/0/1-4
+ switchport mode trunk
+ switchport trunk allowed vlan 12
+ duplex full
+ channel-group 12 mode passive
+
+interface Port-channel12
+ switchport mode trunk
+ switchport trunk allowed vlan 12
+-------------------------------------------
+-------------------------------------------
+MLS-VLAN13 : 192.168.13.0/24
+
+vlan 13
+
+interface GigabitEthernet1/0/5-24
+ switchport mode access
+ switchport access vlan 13
+
+interface GigabitEthernet1/0/1-4
+ switchport mode trunk
+ switchport trunk allowed vlan 13
+ duplex full
+ channel-group 13 mode passive
+
+interface Port-channel13
+ switchport mode trunk
+ switchport trunk allowed vlan 13
+-------------------------------------------
+-------------------------------------------
+MLS-VLAN14 : 192.168.14.0/24
+
+vlan 14
+
+interface GigabitEthernet1/0/5-24
+ switchport mode access
+ switchport access vlan 14
+
+interface GigabitEthernet1/0/1-4
+ switchport mode trunk
+ switchport trunk allowed vlan 14
+ duplex full
+ channel-group 14 mode passive
+
+interface Port-channel14
+ switchport mode trunk
+ switchport trunk allowed vlan 14
+-------------------------------------------
+-------------------------------------------
+MLS-VLAN15 : 192.168.15.0/24
+
+vlan 15
+
+interface GigabitEthernet1/0/5-24
+ switchport mode access
+ switchport access vlan 15
+
+interface GigabitEthernet1/0/1-4
+ switchport mode trunk
+ switchport trunk allowed vlan 15
+ duplex full
+ channel-group 15 mode passive
+
+interface Port-channel15
+ switchport mode trunk
+ switchport trunk allowed vlan 15
+-------------------------------------------
+-------------------------------------------
+MLS-VLAN16 : 192.168.16.0/24
+
+vlan 16
+
+interface GigabitEthernet1/0/5-24
+ switchport mode access
+ switchport access vlan 16
+
+interface GigabitEthernet1/0/1-4
+ switchport mode trunk
+ switchport trunk allowed vlan 16
+ duplex full
+ channel-group 16 mode on
+
+interface Port-channel16
+ switchport mode trunk
+ switchport trunk allowed vlan 16
+-------------------------------------------
+-------------------------------------------
+-------------------------------------------
+MLS-Core :
+
+vlan 11-16
+
+interface Port-channel10
+ switchport mode trunk
+ switchport trunk allowed vlan 11-16
+
+interface Port-channel11
+ switchport mode trunk
+ switchport trunk allowed vlan 11
+
+interface Port-channel12
+ switchport mode trunk
+ switchport trunk allowed vlan 12
+
+interface Port-channel13
+ switchport mode trunk
+ switchport trunk allowed vlan 13
+
+interface Port-channel14
+ switchport mode trunk
+ switchport trunk allowed vlan 14
+
+interface Port-channel15
+ switchport mode trunk
+ switchport trunk allowed vlan 15
+
+interface Port-channel16
+ switchport mode trunk
+ switchport trunk allowed vlan 16
+
+interface range GigabitEthernet1/0/1-4
+ switchport mode trunk
+ switchport trunk allowed vlan 11
+ channel-group 11 mode on
+
+interface range GigabitEthernet1/0/5-8
+ switchport mode trunk
+ switchport trunk allowed vlan 12
+ channel-group 12 mode active
+
+interface range GigabitEthernet1/0/9-12
+ switchport mode trunk
+ switchport trunk allowed vlan 13
+ channel-group 13 mode active
+
+interface range GigabitEthernet1/0/13-16
+ switchport mode trunk
+ switchport trunk allowed vlan 14
+ channel-group 14 mode active
+
+interface range GigabitEthernet1/0/17-20
+ switchport mode trunk
+ switchport trunk allowed vlan 15
+ channel-group 15 mode active
+
+interface range GigabitEthernet1/0/21-24
+ switchport mode trunk
+ switchport trunk allowed vlan 16
+ channel-group 16 mode on
+
+interface range GigabitEthernet1/1/1-4
+ switchport mode trunk
+ switchport trunk allowed vlan 11-16
+ channel-group 10 mode auto
+-------------------------------------------
+-------------------------------------------
+-------------------------------------------
+MLS-DHCP :
+
+ip routing
+
+vlan 11-16
+
+ip dhcp excluded-address 192.168.11.1 192.168.11.11
+ip dhcp excluded-address 192.168.12.1 192.168.12.12
+ip dhcp excluded-address 192.168.13.1 192.168.13.13
+ip dhcp excluded-address 192.168.14.1 192.168.14.14
+ip dhcp excluded-address 192.168.15.1 192.168.15.15
+ip dhcp excluded-address 192.168.16.1 192.168.16.16
+
+ip dhcp pool 11
+ network 192.168.11.0 255.255.255.0
+ default-router 192.168.11.11
+ip dhcp pool 12
+ network 192.168.12.0 255.255.255.0
+ default-router 192.168.12.12
+ip dhcp pool 13
+ network 192.168.13.0 255.255.255.0
+ default-router 192.168.13.13
+ip dhcp pool 14
+ network 192.168.14.0 255.255.255.0
+ default-router 192.168.14.14
+ip dhcp pool 15
+ network 192.168.15.0 255.255.255.0
+ default-router 192.168.15.15
+ip dhcp pool 16
+ network 192.168.16.0 255.255.255.0
+ default-router 192.168.16.16
+
+interface Port-channel10
+ switchport mode trunk
+ switchport trunk allowed vlan 11-16
+
+interface range GigabitEthernet1/1/1-4
+ switchport mode trunk
+ switchport trunk allowed vlan 11-16
+ channel-group 10 mode desirable
+
+interface Vlan11
+ ip address 192.168.11.11 255.255.255.0
+
+interface Vlan12
+ ip address 192.168.12.12 255.255.255.0
+
+interface Vlan13
+ ip address 192.168.13.13 255.255.255.0
+
+interface Vlan14
+ ip address 192.168.14.14 255.255.255.0
+
+interface Vlan15
+ ip address 192.168.15.15 255.255.255.0
+
+interface Vlan16
+ ip address 192.168.16.16 255.255.255.0
+-------------------------------------------
+-------------------------------------------
+-------------------------------------------

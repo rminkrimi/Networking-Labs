@@ -1,0 +1,159 @@
+RaminKarimi - 14 - Session 14 - OSPF Multi-Area
+---------------------------------------------
+Router1:
+Router> en
+Router# conf t
+Router(config)# host Router1
+Router1(config)# int loo 1
+Router1(config-if)# ip add 1.1.1.1 255.255.255.255
+Router1(config-if)# ex
+Router1(config)# int et 2/1
+Router1(config-if)# ip add 192.168.12.1 255.255.255.0
+Router1(config-if)# no sh
+Router1(config-if)# int et 3/1
+Router1(config-if)# ip add 192.168.13.1 255.255.255.0
+Router1(config-if)# no sh
+Router1(config-if)# int et 4/1
+Router1(config-if)# ip add 192.168.14.1 255.255.255.0
+Router1(config-if)# no sh
+Router1(config-if)# ex
+Router1(config)# router ospf 3210
+Router1(config-router)# net 192.168.12.0 0.0.0.255 area 0
+Router1(config-router)# net 192.168.13.0 0.0.0.255 area 0
+Router1(config-router)# net 192.168.14.0 0.0.0.255 area 0
+Router1(config-router)# do wr
+Building configuration...
+[OK]
+--------------------------
+Router2:
+Router> en
+Router# conf t
+Router(config)# ho Router2
+Router2(config)# int loo 2
+Router2(config-if)# ip add 2.2.2.2 255.255.255.255
+Router2(config-if)# no sh
+Router2(config-if)# ex
+Router2(config)# int et 2/1
+Router2(config-if)# ip add 192.168.12.2 255.255.255.0
+Router2(config-if)# no sh
+Router2(config-if)# int et 0/0
+Router2(config-if)# ip add 192.168.26.2 255.255.255.0
+Router2(config-if)# no sh
+Router2(config-if)# ex
+Router2(config)# router ospf 3210
+Router2(config-router)# net 192.168.12.0 0.0.0.255 area 0
+Router2(config-router)# net 192.168.26.0 0.0.0.255 area 1
+Router2(config-router)# do wr
+Building configuration...
+[OK]
+----------------------------------------
+Router3:
+Router> en
+Router# conf t
+Router(config)# ho Router3
+Router3(config)# int loo 3
+Router3(config-if)# ip add 3.3.3.3 255.255.255.255
+Router3(config-if)# no sh
+Router3(config-if)# ex
+Router3(config)# int et 3/1
+Router3(config-if)# ip add 192.168.13.3 255.255.255.0
+Router3(config-if)# no sh
+Router3(config-if)# int et 0/0
+Router3(config-if)# ip add 192.168.37.3 255.255.255.0
+Router3(config-if)# no sh
+Router3(config-if)# ex
+Router3(config)# router ospf 3210
+Router3(config-router)# net 192.168.13.0 0.0.0.255 area 0
+Router3(config-router)# net 192.168.37.0 0.0.0.255 area 2
+Router3(config-router)# do wr
+Building configuration...
+[OK]
+-----------------------------------------
+Router4:
+Router> en
+Router# conf t
+Router(config)# ho Router4
+Router4(config)# int loo 4
+Router4(config-if)# ip add 4.4.4.4 255.255.255.255
+Router4(config-if)# no sh
+Router4(config-if)# ex
+Router4(config)# int et 4/1
+Router4(config-if)# ip add 192.168.14.4 255.255.255.0
+Router4(config-if)# no sh
+Router4(config-if)# int et 0/0
+Router4(config-if)# ip add 192.168.45.4 255.255.255.0
+Router4(config-if)# no sh
+Router4(config-if)# ex
+Router4(config)# router ospf 3210
+Router4(config-router)# net 192.168.14.0 0.0.0.255 area 0
+Router4(config-router)# net 192.168.45.0 0.0.0.255 area 3
+Router4(config-router)# do wr
+Building configuration...
+[OK]
+--------------------------------------------
+Router5:
+Router> en
+Router# conf t
+Router(config)# ho Router5
+Router5(config)# int loo 5
+Router5(config-if)# ip add 5.5.5.5 255.255.255.255
+Router5(config-if)# no sh
+Router5(config-if)# ex
+Router5(config)# int et 0/0
+Router5(config-if)# ip add 192.168.45.5 255.255.255.0
+Router5(config-if)# no sh
+Router5(config-if)# int et 0/1
+Router5(config-if)# ip add 192.168.5.5 255.255.255.0
+Router5(config-if)# no sh
+Router5(config-if)# ex
+Router5(config)# router ospf 3210
+Router5(config-router)# net 192.168.45.0 0.0.0.255 area 3
+Router5(config-router)# net 192.168.5.0 0.0.0.255 area 3
+Router5(config-router)# do wr
+Building configuration...
+[OK]
+--------------------------------------------
+Router6:
+Router> en
+Router# conf t
+Router(config)# ho Router6
+Router6(config)# int loo 6
+Router6(config-if)# ip add 6.6.6.6 255.255.255.255
+Router6(config-if)# no sh
+Router6(config-if)# ex
+Router6(config)# int et 0/0
+Router6(config-if)# ip add 192.168.26.6 255.255.255.0
+Router6(config-if)# no sh
+Router6(config-if)# int et 0/1
+Router6(config-if)# ip add 192.168.6.6 255.255.255.0
+Router6(config-if)# no sh
+Router6(config-if)# ex
+Router6(config)# router ospf 3210
+Router6(config-router)# net 192.168.26.0 0.0.0.255 area 1
+Router6(config-router)# net 192.168.6.0 0.0.0.255 area 1
+Router6(config-router)# do wr
+Building configuration...
+[OK]
+-------------------------------------------
+Router7:
+Router> en
+Router# conf t
+Router(config)# ho Router7
+Router7(config)# int loo 7
+Router7(config-if)# ip add 7.7.7.7 255.255.255.255
+Router7(config-if)# no sh
+Router7(config-if)# ex
+Router7(config)# int et 0/0
+Router7(config-if)# ip add 192.168.37.7 255.255.255.0
+Router7(config-if)# no sh
+Router7(config-if)# int et 0/1
+Router7(config-if)# ip add 192.168.7.7 255.255.255.0
+Router7(config-if)# no sh
+Router7(config-if)# ex
+Router7(config)# router ospf 3210
+Router7(config-router)# net 192.168.37.0 0.0.0.255 area 2
+Router7(config-router)# net 192.168.7.0 0.0.0.255 area 2
+Router7(config-router)# do wr
+Building configuration...
+[OK]
+-----------------------------------

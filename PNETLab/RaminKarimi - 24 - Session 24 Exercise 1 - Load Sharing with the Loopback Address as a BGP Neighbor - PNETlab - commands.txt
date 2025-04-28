@@ -1,0 +1,387 @@
+RaminKarimi - 24 - Session 24 Exercise 1 - Load Sharing with the Loopback Address as a BGP Neighbor - PNETlab
+-----------------------------------
+
+Router>en
+Router#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+Router(config)#ho Router1
+Router1(config)# int loo 1 
+Router1(config-if)#ip add 1.1.1.1 255.255.255.255
+Router1(config-if)#int et 1/0
+Router1(config-if)#ip add 10.10.20.10 255.255.255.0
+Router1(config-if)#no sh
+Router1(config-if)int et 1/1
+Router1(config-if)#ip add 10.11.21.11 255.255.255.0
+Router1(config-if)#no sh
+Router1(config-if)# do wr
+Router1(config-if)# ex
+Router1(config)#router bgp 65501
+Router1(config-router)#nei 2.2.2.2 remote-as 65502
+Router1(config-router)#nei 2.2.2.2 update-source loopback 1
+Router1(config-router)#ex
+Router1(config)#router eigrp 65110
+Router1(config-router)#net 1.1.1.1 0.0.0.0
+Router1(config-router)#net 10.10.20.0 0.0.0.255
+*Dec 31 20:13:08.219: %DUAL-5-NBRCHANGE: EIGRP-IPv4 65110: Neighbor 10.10.20.20 (Ethernet1/0) is up: new adjacency                    
+% Incomplete command.
+
+Router1(config-router)#net 10.11.21.0 0.0.0.255
+*Dec 31 20:13:26.563: %DUAL-5-NBRCHANGE: EIGRP-IPv4 65110: Neighbor 10.11.21.21 (Ethernet1/1) is up: new adjacency
+Router1(config-router)#do wr
+Building configuration...
+[OK]
+Router1(config-router)#
+
+-----------------------------------
+
+Router>en
+Router#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+Router(config)#ho Router1
+Router2(config)#int loo 2
+Router2(config-if)#ip add 2.2.2.2 255.255.255.255
+Router2(config-if)#int et 2/0
+Router2(config-if)#ip add 10.10.20.20 255.255.255.0
+Router2(config-if)#no sh
+Router2(config-if)#int et 2/1
+Router2(config-if)#ip add 10.11.21.21 255.255.255.0
+Router2(config-if)#no sh
+Router2(config-if)#int et 1/0
+Router2(config-if)#ip add 10.20.30.20 255.255.255.0
+Router2(config-if)#no sh
+Router2(config-if)#int et 1/1
+Router2(config-if)#ip add 10.21.31.21 255.255.255.0
+Router2(config-if)#no sh
+Router2(config-if)#do wr
+Router2(config-if)#ex
+Router2(config)#router bgp 65502
+Router2(config-router)#nei 1.1.1.1 remote-as 65501
+Router2(config-router)#nei 1.1.1.1 update-source loopback 2
+Router2(config-router)#nei 3.3.3.3 remote-as 65503
+Router2(config-router)#nei 3.3.3.3 update-source loopback 2
+Router2(config-router)#do ping 1.1.1.1
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 1.1.1.1, timeout is 2 seconds:
+.....
+Success rate is 0 percent (0/5)
+Router2(config-router)#ex
+Router2(config)#router eigrp 65110
+Router2(config-router)#net 2.2.2.2 0.0.0.0
+Router2(config-router)#net 10.10.20.0 0.0.0.255 
+Router2(config-router)#net 10.11.21.0 0.0.0.255
+Router2(config-router)#net 10.20.30.0 0.0.0.255
+Router2(config-router)#net 10.21.31.0 0.0.0.255
+
+-----------------------------------
+
+Router>en
+Router#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+Router(config)#ho Router3
+Router3(config)#int loo 3
+Router3(config-if)#ip add 3.3.3.3 255.255.255.255
+Router3(config-if)#int et 2/0
+Router3(config-if)#ip add 10.20.30.30 255.255.255.0
+Router3(config-if)#no sh
+Router3(config-if)#int et 2/1
+Router3(config-if)#ip add 10.21.31.31 255.255.255.0
+Router3(config-if)#no sh
+Router3(config-if)#int et 1/0
+Router3(config-if)#ip add 10.30.40.30 255.255.255.0
+Router3(config-if)#no sh
+Router3(config)#int et 1/1
+Router3(config-if)#ip add 10.31.41.31 255.255.255.0
+Router3(config-if)#no sh
+Router3(config-if)#ex
+Router3(config)#router bgp 65503
+Router3(config-router)#nei 2.2.2.2 remote-as 65502
+Router3(config-router)#nei 2.2.2.2 update-source loopback 3
+Router3(config-router)#nei 4.4.4.4 remote-as 65504
+Router3(config-router)#nei 4.4.4.4 update-source loopback 3
+Router3(config-router)#ex
+Router3(config)#router eigrp 65110
+Router3(config-router)#net 3.3.3.3 0.0.0.0
+Router3(config-router)#net 10.20.30.0 0.0.0.255
+*Dec 31 20:24:01.915: %DUAL-5-NBRCHANGE: EIGRP-IPv4 65110: Neighbor 10.20.30.20 (Ethernet2/0) is up: new adjacenc        
+Router3(config-router)#net 10.21.31.0 0.0.0.255
+*Dec 31 20:24:16.371: %DUAL-5-NBRCHANGE: EIGRP-IPv4 65110: Neighbor 10.21.31.21 (Ethernet2/1) is up: new adjacency
+Router3(config-router)#net 10.30.40.0 0.0.0.255
+Router3(config-router)#net 10.31.41.0 0.0.0.255
+Router3(config-router)#do wr
+Building configuration...
+[OK]
+Router3(config-router)#
+
+-----------------------------------
+
+Router>en
+Router#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+Router(config)#ho Router4
+Router4(config)#int loo 4
+Router4(config-if)#ip add 4.4.4.4 255.255.255.255
+Router4(config-if)#int et 2/0
+Router4(config-if)#ip add 10.30.40.40 255.255.255.0
+Router4(config-if)#no sh
+Router4(config-if)#int et 2/1
+Router4(config-if)#ip add 10.31.41.41 255.255.255.0
+Router4(config-if)#no sh
+Router4(config-if)#nt et 1/0
+Router4(config-if)#ip add 10.40.50.40 255.255.255.0
+Router4(config-if)#no sh
+Router4(config-if)#int et 1/1
+Router4(config-if)#ip add 10.41.51.41 255.255.255.0
+Router4(config-if)#no sh
+Router4(config-if)#do wr
+Router4(config-if)#ex
+Router4(config)#router bgp 65504
+Router4(config-router)#nei 3.3.3.3 remote-as 65503
+Router4(config-router)#nei 3.3.3.3 update-source loopback 4
+Router4(config-router)#nei 5.5.5.5 remote-as 65505
+Router4(config-router)#nei 5.5.5.5 update-source loopback 4
+Router4(config-router)#ex
+Router4(config)#router eigrp 65110
+Router4(config-router)#net 4.4.4.4 0.0.0.0
+Router4(config-router)#net 10.30.40.0 0.0.0.255
+*Dec 31 20:31:52.895: %DUAL-5-NBRCHANGE: EIGRP-IPv4 65110: Neighbor 10.30.40.30 (Ethernet2/0) is up: new adjacen    
+Router4(config-router)#net 10.31.41.0 0.0.0.255
+*Dec 31 20:32:07.155: %DUAL-5-NBRCHANGE: EIGRP-IPv4 65110: Neighbor 10.31.41.31 (Ethernet2/1) is up: new adjacency
+Router4(config-router)#net 10.40.50.0 0.0.0.255
+Router4(config-router)#net 10.41.51.0 0.0.0.255
+Router4(config-router)#do wr
+Building configuration...
+[OK]
+Router4(config-router)#
+
+-----------------------------------
+
+Router>en
+Router#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+Router(config)#ho Router5
+Router5(config)#int loo 5
+Router5(config-if)#ip add 5.5.5.5 255.255.255.255
+Router5(config-if)#int et 2/0
+Router5(config-if)#ip add 10.40.50.50 255.255.255.0
+Router5(config-if)#no sh
+Router5(config-if)#int et 2/1
+Router5(config-if)#ip add 10.41.51.51 255.255.255.0
+Router5(config-if)#no sh
+Router5(config-if)#nt et 1/0
+Router5(config-if)#ip add 10.50.60.50 255.255.255.0
+Router5(config-if)#no sh
+Router5(config-if)#int et 1/1
+Router5(config-if)#ip add 10.51.61.51 255.255.255.0
+Router5(config-if)#no sh
+Router5(config-if)#do wr
+Router5(config-if)#ex
+Router5(config)#router bgp 65505
+Router5(config-router)#nei 4.4.4.4 remote-as 65504
+Router5(config-router)#nei 4.4.4.4 update-source loopback 5
+Router5(config-router)#nei 6.6.6.6 remote-as 65506
+Router5(config-router)#nei 6.6.6.6 update-source loopback 5
+Router5(config-router)#ex
+Router5(config)#router eigrp 65110
+Router5(config-router)#net 5.5.5.5 0.0.0.0
+Router5(config-router)#net 10.40.50.0 0.0.0.255
+*Dec 31 20:37:56.471: %DUAL-5-NBRCHANGE: EIGRP-IPv4 65110: Neighbor 10.40.50.40 (Ethernet2/0) is up: new adjacency
+Router5(config-router)#net 10.41.51.0 0.0.0.255
+*Dec 31 20:38:14.767: %DUAL-5-NBRCHANGE: EIGRP-IPv4 65110: Neighbor 10.41.51.41 (Ethernet2/1) is up: new adjacency
+Router5(config-router)#net 10.50.60.0 0.0.0.255
+Router5(config-router)#net 10.51.61.0 0.0.0.255
+Router5(config-router)#do wr
+Building configuration...
+[OK]
+Router5(config-router)#
+
+-----------------------------------
+
+Router>en
+Router#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+Router(config)#ho Router6
+Router6(config)#int loo 6
+Router6(config-if)#ip add 6.6.6.6 255.255.255.255
+Router6(config-if)#int et 2/0
+Router6(config-if)#ip add 10.50.60.60 255.255.255.0
+Router6(config-if)#no sh
+Router6(config-if)#int et 2/1
+Router6(config-if)#ip add 10.51.61.61 255.255.255.0
+Router6(config-if)#no sh
+Router6(config-if)#nt et 1/0                      0
+Router6(config-if)#ip add 10.60.70.60 255.255.255.0
+Router6(config-if)#no sh
+Router6(config-if)int et 1/1                      0
+Router6(config-if)#ip add 10.61.71.61 255.255.255.0
+Router6(config-if)#no sh
+Router6(config-if)#do wr
+Router6(config-if)#ex
+Router6(config)#router bgp 65506
+Router6(config-router)#nei 5.5.5.5 remote-as 65505
+Router6(config-router)#nei 5.5.5.5 update-source loopback 6
+Router6(config-router)#nei 7.7.7.7 remote-as 65507
+Router6(config-router)#nei 7.7.7.7 update-source loopback 6
+Router6(config-router)#ex
+Router6(config)#router eigrp 65110
+Router6(config-router)#net 6.6.6.6 0.0.0.0
+Router6(config-router)#net 10.50.60.0 0.0.0.255
+*Dec 31 20:42:42.875: %DUAL-5-NBRCHANGE: EIGRP-IPv4 65110: Neighbor 10.50.60.50 (Ethernet2/0) is up: new adjacency
+Router6(config-router)#net 10.51.61.0 0.0.0.255
+*Dec 31 20:42:57.427: %DUAL-5-NBRCHANGE: EIGRP-IPv4 65110: Neighbor 10.51.61.51 (Ethernet2/1) is up: new adjacency
+Router6(config-router)#net 10.60.70.0 0.0.0.255
+Router6(config-router)#net 10.61.71.0 0.0.0.255
+Router6(config-router)#do wr
+Building configuration...
+[OK]
+Router6(config-router)#
+
+-----------------------------------
+
+Router>en
+Router#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+Router(config)#ho Router7
+Router7(config)#int loo 7
+Router7(config-if)#ip add 7.7.7.7 255.255.255.255
+Router7(config-if)#int et 2/0
+Router7(config-if)#ip add 10.60.70.70 255.255.255.0
+Router7(config-if)#no sh
+Router7(config-if)#int et 2/1              
+Router7(config-if)#ip add 10.61.71.71 255.255.255.0
+Router7(config-if)#no sh
+Router7(config-if)#int et 1/0
+Router7(config-if)#ip add 10.70.80.70 255.255.255.0
+Router7(config-if)#no sh
+Router7(config-if)#int et 1/1
+Router7(config-if)#ip add 10.71.81.71 255.255.255.0
+Router7(config-if)#no sh
+Router7(config-if)#ex
+Router7(config)#router bgp 65507
+Router7(config-router)#nei 6.6.6.6 remote-as 65506
+Router7(config-router)#nei 6.6.6.6 update-source loopback 7
+Router7(config-router)#nei 8.8.8.8 remote-as 65508
+Router7(config-router)#nei 8.8.8.8 update-source loopback 7
+Router7(config-router)#ex
+Router7(config)#router eigrp 65110
+Router7(config-router)#net 7.7.7.7 0.0.0.0
+Router7(config-router)#net 10.60.70.0 0.0.0.255
+*Dec 31 20:51:26.755: %DUAL-5-NBRCHANGE: EIGRP-IPv4 65110: Neighbor 10.60.70.60 (Ethernet2/0) is up: new adjacency
+Router7(config-router)#net 10.61.71.0 0.0.0.255
+*Dec 31 20:51:43.547: %DUAL-5-NBRCHANGE: EIGRP-IPv4 65110: Neighbor 10.61.71.61 (Ethernet2/1) is up: new adjacency
+Router7(config-router)#net 10.70.80.0 0.0.0.255
+Router7(config-router)#net 10.71.81.0 0.0.0.255
+Router7(config-router)#do wr
+Building configuration...
+[OK]
+Router7(config-router)#
+
+-----------------------------------
+
+Router>en
+Router#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+Router(config)#ho Router8
+Router8(config)#int loo 8
+Router8(config-if)#ip add 8.8.8.8 255.255.255.255
+Router8(config-if)#int et 2/0
+Router8(config-if)#ip add 10.70.80.80 255.255.255.0
+Router8(config-if)#no sh
+Router8(config-if)#int et 2/1
+Router8(config-if)#ip add 10.71.81.81 255.255.255.0
+Router8(config-if)#no sh
+Router8(config-if)#int et 1/0
+Router8(config-if)#ip add 10.80.90.80 255.255.255.0
+Router8(config-if)#no sh
+Router8(config-if)#nt et 1/1
+Router8(config-if)#ip add 10.81.91.81 255.255.255.0
+Router8(config-if)#no sh
+Router8(config-if)#do wr
+Router8(config-if)#ex
+Router8(config)#router eigrp 65110
+Router8(config-router)#net 8.8.8.8 0.0.0.0
+Router8(config-router)#net 10.70.80.0 0.0.0.255
+*Dec 31 21:24:54.847: %DUAL-5-NBRCHANGE: EIGRP-IPv4 65110: Neighbor 10.70.80.70 (Ethernet2/0) is up: new adjacency
+Router8(config-router)#net 10.71.81.0 0.0.0.255
+*Dec 31 21:25:14.495: %DUAL-5-NBRCHANGE: EIGRP-IPv4 65110: Neighbor 10.71.81.71 (Ethernet2/1) is up: new adjacency
+Router8(config-router)#net 10.80.90.0 0.0.0.255
+Router8(config-router)#net 10.81.91.0 0.0.0.255
+Router8(config-router)#do wr
+Building configuration...
+[OK]
+Router8(config-router)#
+
+-----------------------------------
+
+Router>en
+Router#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+Router(config)#ho Router9
+Router9(config)#int loo 9                     
+Router9(config-if)#ip add 9.9.9.9 255.255.255.255
+Router9(config-if)#int et 2/0
+Router9(config-if)#ip add 10.80.90.90 255.255.255.0
+Router9(config-if)#no sh
+Router9(config-if)#int et 2/1
+Router9(config-if)#ip add 10.81.91.91 255.255.255.0
+Router9(config-if)#no sh
+Router9(config-if)#int et 1/0
+Router9(config-if)#ip add 10.90.100.90 255.255.255.0
+Router9(config-if)#no sh
+Router9(config-if)#int et 1/1
+Router9(config-if)#ip add 10.91.101.91 255.255.255.0
+Router9(config-if)#no sh
+Router9(config)#router bgp 65509
+Router9(config-router)#nei 8.8.8.8 remote-as 65508
+Router9(config-router)#nei 8.8.8.8 update-source loopback 9
+Router9(config-router)#nei 10.10.10.10 remote-as 65510
+Router9(config-router)#nei 10.10.10.10 update-source loopback 9
+Router9(config-router)#ex
+Router9(config)#router eigrp 65110
+Router9(config-router)#net 9.9.9.9 0.0.0.0
+Router9(config-router)#net 10.80.90.0 0.0.0.255
+*Dec 31 21:33:28.823: %DUAL-5-NBRCHANGE: EIGRP-IPv4 65110: Neighbor 10.80.90.80 (Ethernet2/0) is up: new adjacency 
+Router9(config-router)#net 10.81.91.0 0.0.0.255
+*Dec 31 21:33:41.083: %DUAL-5-NBRCHANGE: EIGRP-IPv4 65110: Neighbor 10.81.91.81 (Ethernet2/1) is up: new adjacency
+Router9(config-router)#net 10.90.100.0 0.0.0.255
+Router9(config-router)#net 10.91.101.0 0.0.0.255
+Router9(config-router)#do wr
+Building configuration...
+[OK]
+Router9(config-router)#
+
+-----------------------------------
+
+Router>
+Router>en
+Router#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+Router(config)#ho Router10
+Router10(config)#int loo 10
+Router10(config-if)#ip add 10.10.10.10 255.255.255.255
+Router10(config-if)#int et 2/0
+Router10(config-if)#ip add 10.90.100.100 255.255.255.0
+Router10(config-if)#no sh
+Router10(config-if)#int et 2/1
+Router10(config-if)#ip add 10.91.101.101 255.255.255.0
+Router10(config-if)#no sh
+Router10(config)#router bgp 65510
+Router10(config-router)#nei 9.9.9.9 remote-as 65509
+Router10(config-router)#nei 9.9.9.9 update-source loopback 10
+Router10(config-router)#ex
+Router10(config)#router eigrp 65110
+Router10(config-router)#net 10.10.10.10 0.0.0.0
+Router10(config-router)#net 10.90.100.0 0.0.0.255
+*Dec 31 21:37:21.115: %DUAL-5-NBRCHANGE: EIGRP-IPv4 65110: Neighbor 10.90.100.90 (Ethernet2/0) is up: new adjacency
+Router10(config-router)#net 10.91.101.0 0.0.0.255
+*Dec 31 21:37:35.283: %DUAL-5-NBRCHANGE: EIGRP-IPv4 65110: Neighbor 10.91.101.91 (Ethernet2/1) is up: new adjacency
+Router10(config-router)#do wr
+Building configuration...
+[OK]
+Router10(config-router)#do ping 1.1.1.1
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 1.1.1.1, timeout is 2 seconds:
+!!!!!
+Success rate is 100 percent (5/5), round-trip min/avg/max = 252/308/364 ms
+Router10(config-router)#
+
+-----------------------------------

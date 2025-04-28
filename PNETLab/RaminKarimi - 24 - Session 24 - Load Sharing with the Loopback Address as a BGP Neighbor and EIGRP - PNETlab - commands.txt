@@ -1,0 +1,47 @@
+24-2
+sho bgp ipv4 unicast summary
+sho ip route 
+sho ip route bgp
+sho bgp ipv4 unicast 1.1.1.1
+sho sessions
+sho ip int br
+sho ip bgp neigh
+sho ip bgp summary
+sho bgp ipv4 unicast
+sho run | sec bgp
+--------------------------
+commands for bgp whith more one physical interface
+interface bayad loopback bashe baraye tashkil hamsayegiii k vabastegi fiziki nadare
+
+1. neighbor NIP remote-as ASN
+2. neighbor NIP update-source loopback
+3. neighbor NIP next-hop-self inja karbord nadare
+4. neighbor NIP default-originate
+5. neighbor NIP password PASS
+6. neighbor NIP ebgp-multihop NUM
+**************
+Router1(config)#router bgp 65501
+Router1(config-router)#nei 2.2.2.2 remote-as 65502
+nei 2.2.2.2 update-source loopback 1
+do ping 2.2.2.2 source 1.1.1.1
+router eigrp 1020
+net 192.168.10.0 0.0.0.255
+net 192.168.20.0 0.0.0.255
+net 1.1.1.1 0.0.0.0
+do ping 2.2.2.2
+do ping 2.2.2.2 sou 1.1.1.1
+nei 2.2.2.2 ebgp-multihop 255
+--------------------------------
+
+Router2(config)#router bgp 65502
+Router2(config-router)#nei 1.1.1.1 remote-as 65501
+nei 1.1.1.1 update-source loopback 2
+do ping 1.1.1.1 source 2.2.2.2
+router eigrp 1020
+net 192.168.10.0 0.0.0.255
+net 192.168.20.0 0.0.0.255
+net 2.2.2.2 0.0.0.0
+do ping 1.1.1.1
+do ping 1.1.1.1 sou 2.2.2.2
+nei 1.1.1.1 ebgp-multihop 255
+

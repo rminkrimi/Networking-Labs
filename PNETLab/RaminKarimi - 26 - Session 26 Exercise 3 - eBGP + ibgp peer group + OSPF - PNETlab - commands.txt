@@ -1,0 +1,1144 @@
+----------------------
+----------------------
+Router1:
+
+en
+conf t
+ho Router1
+int loo 1
+ip add 1.1.1.1 255.255.255.255
+int et 1/0
+ip add 10.10.1.1 255.255.255.0
+no sh
+int et 1/1
+ip add 10.1.6.1 255.255.255.0
+no sh
+ex
+
+router ospf 65000
+net 1.1.1.1 0.0.0.0 area 0
+net 10.10.1.0 0.0.0.255 area 0
+ex
+
+router bgp 65000
+network 1.1.1.1 mask 255.255.255.255
+neighbor 10.1.6.6 remote-as 65001
+neighbor Router1 peer-group
+neighbor Router1 remote-as 65000
+neighbor Router1 update-source loopback 1
+neighbor Router1 next-hop-self
+neighbor Router1 description Router1-Neighbor
+neighbor 2.2.2.2 peer-group Router1
+neighbor 3.3.3.3 peer-group Router1
+neighbor 4.4.4.4 peer-group Router1
+neighbor 5.5.5.5 peer-group Router1
+neighbor 10.10.10.10 peer-group Router1
+neighbor 11.11.11.11 peer-group Router1
+neighbor 12.12.12.12 peer-group Router1
+neighbor 13.13.13.13 peer-group Router1
+neighbor 14.14.14.14 peer-group Router1
+do wr
+
+
+
+
+----------------------
+----------------------
+Router2:
+
+en
+conf t
+ho Router2
+int loo 2
+ip add 2.2.2.2 255.255.255.255
+int et 2/0
+ip add 10.5.2.2 255.255.255.0
+no sh
+int et 2/1
+ip add 10.2.7.2 255.255.255.0
+no sh
+ex
+
+router ospf 65000
+net 2.2.2.2 0.0.0.0 area 0
+net 10.5.2.0 0.0.0.255 area 0
+ex
+
+router bgp 65000
+network 2.2.2.2 mask 255.255.255.255
+neighbor 10.2.7.7 remote-as 65002
+neighbor Router2 peer-group
+neighbor Router2 remote-as 65000
+neighbor Router2 update-source loopback 2
+neighbor Router2 next-hop-self
+neighbor Router2 description Router2-Neighbor
+neighbor 1.1.1.1 peer-group Router2
+neighbor 3.3.3.3 peer-group Router2
+neighbor 4.4.4.4 peer-group Router2
+neighbor 5.5.5.5 peer-group Router2
+neighbor 10.10.10.10 peer-group Router2
+neighbor 11.11.11.11 peer-group Router2
+neighbor 12.12.12.12 peer-group Router2
+neighbor 13.13.13.13 peer-group Router2
+neighbor 14.14.14.14 peer-group Router2
+do wr
+
+
+
+
+----------------------
+----------------------
+Router3:
+
+en
+conf t
+ho Router3
+int loo 3
+ip add 3.3.3.3 255.255.255.255
+int et 3/0
+ip add 10.10.3.3 255.255.255.0
+no sh
+int et 3/1
+ip add 10.3.8.3 255.255.255.0
+no sh
+ex
+
+router ospf 65000
+net 3.3.3.3 0.0.0.0 area 0
+net 10.10.3.0 0.0.0.255 area 0
+ex
+
+router bgp 65000
+network 3.3.3.3 mask 255.255.255.255
+neighbor 10.3.8.8 remote-as 65003
+neighbor Router3 peer-group
+neighbor Router3 remote-as 65000
+neighbor Router3 update-source loopback 3
+neighbor Router3 next-hop-self
+neighbor Router3 description Router3-Neighbor
+neighbor 1.1.1.1 peer-group Router3
+neighbor 2.2.2.2 peer-group Router3
+neighbor 4.4.4.4 peer-group Router3
+neighbor 5.5.5.5 peer-group Router3
+neighbor 10.10.10.10 peer-group Router3
+neighbor 11.11.11.11 peer-group Router3
+neighbor 12.12.12.12 peer-group Router3
+neighbor 13.13.13.13 peer-group Router3
+neighbor 14.14.14.14 peer-group Router3
+do wr
+
+
+
+
+----------------------
+----------------------
+Router4:
+
+en
+conf t
+ho Router4
+int loo 4
+ip add 4.4.4.4 255.255.255.255
+int et 4/0
+ip add 10.5.4.4 255.255.255.0
+no sh
+int et 4/1
+ip add 10.4.9.4 255.255.255.0
+no sh
+ex
+
+router ospf 65000
+net 4.4.4.4 0.0.0.0 area 0
+net 10.5.4.0 0.0.0.255 area 0
+ex
+
+router bgp 65000
+network 4.4.4.4 mask 255.255.255.255
+neighbor 10.4.9.9 remote-as 65004
+neighbor Router4 peer-group
+neighbor Router4 remote-as 65000
+neighbor Router4 update-source loopback 4
+neighbor Router4 next-hop-self
+neighbor Router4 description Router4-Neighbor
+neighbor 1.1.1.1 peer-group Router4
+neighbor 2.2.2.2 peer-group Router4
+neighbor 3.3.3.3 peer-group Router4
+neighbor 5.5.5.5 peer-group Router4
+neighbor 10.10.10.10 peer-group Router4
+neighbor 11.11.11.11 peer-group Router4
+neighbor 12.12.12.12 peer-group Router4
+neighbor 13.13.13.13 peer-group Router4
+neighbor 14.14.14.14 peer-group Router4
+do wr
+
+
+
+
+----------------------
+----------------------
+Router5:
+
+en
+conf t
+ho Router5
+int loo 5
+ip add 5.5.5.5 255.255.255.255
+int et 2/0
+ip add 10.2.5.5 255.255.255.0
+no sh
+int et 2/1
+ip add 10.5.12.5 255.255.255.0
+no sh
+int et 4/1
+ip add 10.5.14.5 255.255.255.0
+no sh
+int et 4/0
+ip add 10.5.4.5 255.255.255.0
+no sh
+int et 5/0
+ip add 10.5.10.5 255.255.255.0
+no sh
+int et 5/1
+ip add 10.10.5.5 255.255.255.0
+no sh
+ex
+
+router ospf 65000
+net 5.5.5.5 0.0.0.0 area 0
+net 10.5.10.0 0.0.0.255 area 0
+net 10.10.5.0 0.0.0.255 area 0
+net 10.5.2.0 0.0.0.255 area 0
+net 10.5.12.0 0.0.0.255 area 0
+net 10.5.14.0 0.0.0.255 area 0
+net 10.5.4.0 0.0.0.255 area 0
+ex
+
+router bgp 65000
+network 5.5.5.5 mask 255.255.255.255
+neighbor Router5 peer-group
+neighbor Router5 remote-as 65000
+neighbor Router5 update-source loopback 5
+!
+neighbor Router5 description Router5-Neighbor
+neighbor 1.1.1.1 peer-group Router5
+neighbor 2.2.2.2 peer-group Router5
+neighbor 3.3.3.3 peer-group Router5
+neighbor 4.4.4.4 peer-group Router5
+neighbor 10.10.10.10 peer-group Router5
+neighbor 11.11.11.11 peer-group Router5
+neighbor 12.12.12.12 peer-group Router5
+neighbor 13.13.13.13 peer-group Router5
+neighbor 14.14.14.14 peer-group Router5
+do wr
+
+
+
+
+----------------------
+----------------------
+Router6:
+
+en
+conf t
+ho Router6
+int loo 6
+ip add 6.6.6.6 255.255.255.255
+int et 1/1
+ip add 10.1.6.6 255.255.255.0
+no sh
+int et 1/2
+ip add 10.6.15.6 255.255.255.0
+no sh
+ex
+
+router ospf 65001
+net 6.6.6.6 0.0.0.0 area 0
+net 10.6.15.0 0.0.0.255 area 0
+ex
+
+router bgp 65001
+network 6.6.6.6 mask 255.255.255.255
+neighbor 10.1.6.1 remote-as 65000
+neighbor Router6 peer-group
+neighbor Router6 remote-as 65001
+neighbor Router6 update-source loopback 6
+neighbor Router6 next-hop-self
+neighbor Router6 description Router6-Neighbor
+neighbor 15.15.15.15 peer-group Router6
+neighbor 16.16.16.16 peer-group Router6
+neighbor 17.17.17.17 peer-group Router6
+neighbor 18.18.18.18 peer-group Router6
+do wr
+
+
+
+
+
+----------------------
+----------------------
+Router7:
+
+en
+conf t
+ho Router7
+int loo 7
+ip add 7.7.7.7 255.255.255.255
+int et 2/1
+ip add 10.2.7.7 255.255.255.0
+no sh
+int et 2/2
+ip add 10.7.20.7 255.255.255.0
+no sh
+int et 2/0
+ip add 10.7.19.7 255.255.255.0
+no sh
+ex
+
+router ospf 65002
+net 7.7.7.7 0.0.0.0 area 0
+net 10.7.19.0 0.0.0.255 area 0
+net 10.7.20.0 0.0.0.255 area 0
+ex
+
+router bgp 65002
+network 7.7.7.7 mask 255.255.255.255
+neighbor 10.2.7.2 remote-as 65000
+neighbor Router7 peer-group
+neighbor Router7 remote-as 65002
+neighbor Router7 update-source loopback 7
+neighbor Router7 next-hop-self
+neighbor Router7 description Router7-Neighbor
+neighbor 19.19.19.19 peer-group Router7
+neighbor 20.20.20.20 peer-group Router7
+neighbor 21.21.21.21 peer-group Router7
+do wr
+
+
+
+
+----------------------
+----------------------
+Router8:
+
+en
+conf t
+ho Router8
+int loo 8
+ip add 8.8.8.8 255.255.255.255
+int et 3/0
+ip add 10.8.22.8 255.255.255.0
+no sh
+int et 3/1
+ip add 10.3.8.8 255.255.255.0
+no sh
+int et 3/2
+ip add 10.8.23.8 255.255.255.0
+no sh
+int et 3/3
+ip add 10.8.24.8 255.255.255.0
+no sh
+ex
+
+router ospf 65003
+net 8.8.8.8 0.0.0.0 area 0
+net 10.8.22.0 0.0.0.255 area 0
+net 10.8.23.0 0.0.0.255 area 0
+net 10.8.24.0 0.0.0.255 area 0
+ex
+
+router bgp 65003
+network 8.8.8.8 mask 255.255.255.255
+neighbor 10.3.8.3 remote-as 65000
+neighbor Router8 peer-group
+neighbor Router8 remote-as 65003
+neighbor Router8 update-source loopback 8
+neighbor Router8 next-hop-self
+neighbor Router8 description Router8-Neighbor
+neighbor 22.22.22.22 peer-group Router8
+neighbor 23.23.23.23 peer-group Router8
+neighbor 24.24.24.24 peer-group Router8
+do wr
+
+
+
+
+----------------------
+----------------------
+Router9:
+
+en
+conf t
+ho Router9
+int loo 9
+ip add 9.9.9.9 255.255.255.255
+int et 4/0
+ip add 10.9.25.9 255.255.255.0
+no sh
+int et 4/1
+ip add 10.4.9.9 255.255.255.0
+no sh
+int et 4/2
+ip add 10.9.26.9 255.255.255.0
+no sh
+ex
+
+router ospf 65004
+net 9.9.9.9 0.0.0.0 area 0
+net 10.9.25.0 0.0.0.255 area 0
+net 10.9.26.0 0.0.0.255 area 0
+ex
+
+router bgp 65004
+network 9.9.9.9 mask 255.255.255.255
+neighbor 10.4.9.4 remote-as 65000
+neighbor Router9 peer-group
+neighbor Router9 remote-as 65004
+neighbor Router9 update-source loopback 9
+neighbor Router9 next-hop-self
+neighbor Router9 description Router9-Neighbor
+neighbor 25.25.25.25 peer-group Router9
+neighbor 26.26.26.26 peer-group Router9
+neighbor 27.27.27.27 peer-group Router9
+do wr
+
+
+
+
+----------------------
+----------------------
+Router10:
+
+en
+conf t
+ho Router10
+int loo 10
+ip add 10.10.10.10 255.255.255.255
+int et 1/0
+ip add 10.10.1.10 255.255.255.0
+no sh
+int et 1/1
+ip add 10.10.11.10 255.255.255.0
+no sh
+int et 3/1
+ip add 10.10.13.10 255.255.255.0
+no sh
+int et 3/0
+ip add 10.10.3.10 255.255.255.0
+no sh
+int et 5/0
+ip add 10.5.10.10 255.255.255.0
+no sh
+int et 5/1
+ip add 10.10.5.10 255.255.255.0
+no sh
+ex
+
+router ospf 65000
+net 10.10.10.10 0.0.0.0 area 0
+net 10.5.10.0 0.0.0.255 area 0
+net 10.10.5.0 0.0.0.255 area 0
+net 10.10.1.0 0.0.0.255 area 0
+net 10.10.3.0 0.0.0.255 area 0
+net 10.10.11.0 0.0.0.255 area 0
+net 10.10.13.0 0.0.0.255 area 0
+ex
+
+router bgp 65000
+network 10.10.10.10 mask 255.255.255.255
+neighbor Router10 peer-group
+neighbor Router10 remote-as 65000
+neighbor Router10 update-source loopback 10
+!
+neighbor Router10 description Router10-Neighbor
+neighbor 1.1.1.1 peer-group Router10
+neighbor 2.2.2.2 peer-group Router10
+neighbor 3.3.3.3 peer-group Router10
+neighbor 4.4.4.4 peer-group Router10
+neighbor 5.5.5.5 peer-group Router10
+neighbor 11.11.11.11 peer-group Router10
+neighbor 12.12.12.12 peer-group Router10
+neighbor 13.13.13.13 peer-group Router10
+neighbor 14.14.14.14 peer-group Router10
+do wr
+
+
+
+
+----------------------
+----------------------
+Router11:
+
+en
+conf t
+ho Router11
+int loo 11
+ip add 11.11.11.11 255.255.255.255
+int et 1/0
+ip add 10.10.11.11 255.255.255.0
+no sh
+int et 1/1
+ip add 10.11.16.11 255.255.255.0
+no sh
+ex
+
+router ospf 65000
+net 11.11.11.11 0.0.0.0 area 0
+net 10.10.11.0 0.0.0.255 area 0
+ex
+
+router bgp 65000
+network 11.11.11.11 mask 255.255.255.255
+neighbor 10.11.16.16 remote-as 65001
+neighbor Router11 peer-group
+neighbor Router11 remote-as 65000
+neighbor Router11 update-source loopback 11
+neighbor Router11 next-hop-self
+neighbor Router11 description Router11-Neighbor
+neighbor 1.1.1.1 peer-group Router11
+neighbor 2.2.2.2 peer-group Router11
+neighbor 3.3.3.3 peer-group Router11
+neighbor 4.4.4.4 peer-group Router11
+neighbor 5.5.5.5 peer-group Router11
+neighbor 10.10.10.10 peer-group Router11
+neighbor 12.12.12.12 peer-group Router11
+neighbor 13.13.13.13 peer-group Router11
+neighbor 14.14.14.14 peer-group Router11
+do wr
+
+
+
+
+
+----------------------
+----------------------
+Router12:
+
+en
+conf t
+ho Router12
+int loo 12
+ip add 12.12.12.12 255.255.255.255
+int et 2/0
+ip add 10.5.12.12 255.255.255.0
+no sh
+int et 2/1
+ip add 10.12.19.12 255.255.255.0
+no sh
+ex
+
+router ospf 65000
+net 12.12.12.12 0.0.0.0 area 0
+net 10.5.12.0 0.0.0.255 area 0
+ex
+
+router bgp 65000
+network 12.12.12.12 mask 255.255.255.255
+neighbor 10.12.19.19 remote-as 65002
+neighbor Router12 peer-group
+neighbor Router12 remote-as 65000
+neighbor Router12 update-source loopback 12
+neighbor Router12 next-hop-self
+neighbor Router12 description Router12-Neighbor
+neighbor 1.1.1.1 peer-group Router12
+neighbor 2.2.2.2 peer-group Router12
+neighbor 3.3.3.3 peer-group Router12
+neighbor 4.4.4.4 peer-group Router12
+neighbor 5.5.5.5 peer-group Router12
+neighbor 10.10.10.10 peer-group Router12
+neighbor 11.11.11.11 peer-group Router12
+neighbor 13.13.13.13 peer-group Router12
+neighbor 14.14.14.14 peer-group Router12
+do wr
+
+
+
+
+----------------------
+----------------------
+Router13:
+
+en
+conf t
+ho Router13
+int loo 13
+ip add 13.13.13.13 255.255.255.255
+int et 3/0
+ip add 10.10.13.13 255.255.255.0
+no sh
+int et 3/1
+ip add 10.13.22.13 255.255.255.0
+no sh
+ex
+
+router ospf 65000
+net 13.13.13.13 0.0.0.0 area 0
+net 10.10.13.0 0.0.0.255 area 0
+ex
+
+router bgp 65000
+network 13.13.13.13 mask 255.255.255.255
+neighbor 10.13.22.22 remote-as 65003
+neighbor Router13 peer-group
+neighbor Router13 remote-as 65000
+neighbor Router13 update-source loopback 13
+neighbor Router13 next-hop-self
+neighbor Router13 description Router13-Neighbor
+neighbor 1.1.1.1 peer-group Router13
+neighbor 2.2.2.2 peer-group Router13
+neighbor 3.3.3.3 peer-group Router13
+neighbor 4.4.4.4 peer-group Router13
+neighbor 5.5.5.5 peer-group Router13
+neighbor 10.10.10.10 peer-group Router13
+neighbor 11.11.11.11 peer-group Router13
+neighbor 12.12.12.12 peer-group Router13
+neighbor 14.14.14.14 peer-group Router13
+do wr
+
+
+
+
+----------------------
+----------------------
+Router14:
+
+en
+conf t
+ho Router14
+int loo 14
+ip add 14.14.14.14 255.255.255.255
+int et 4/0
+ip add 10.5.14.14 255.255.255.0
+no sh
+int et 4/1
+ip add 10.14.25.14 255.255.255.0
+no sh
+ex
+
+router ospf 65000
+net 14.14.14.14 0.0.0.0 area 0
+net 10.5.14.0 0.0.0.255 area 0
+ex
+
+router bgp 65000
+network 14.14.14.14 mask 255.255.255.255
+neighbor 10.14.25.25 remote-as 65004
+neighbor Router14 peer-group
+neighbor Router14 remote-as 65000
+neighbor Router14 update-source loopback 14
+neighbor Router14 next-hop-self
+neighbor Router14 description Router14-Neighbor
+neighbor 1.1.1.1 peer-group Router14
+neighbor 2.2.2.2 peer-group Router14
+neighbor 3.3.3.3 peer-group Router14
+neighbor 4.4.4.4 peer-group Router14
+neighbor 5.5.5.5 peer-group Router14
+neighbor 10.10.10.10 peer-group Router14
+neighbor 11.11.11.11 peer-group Router14
+neighbor 12.12.12.12 peer-group Router14
+neighbor 13.13.13.13 peer-group Router14
+do wr
+
+
+
+
+----------------------
+----------------------
+Router15:
+
+en
+conf t
+ho Router15
+int loo 15
+ip add 15.15.15.15 255.255.255.255
+int et 1/0
+ip add 10.6.15.15 255.255.255.0
+no sh
+int et 1/1
+ip add 10.15.16.15 255.255.255.0
+no sh
+int et 1/2
+ip add 10.15.18.15 255.255.255.0
+no sh
+int et 1/3
+ip add 10.15.17.15 255.255.255.0
+no sh
+ex
+
+router ospf 65001
+net 15.15.15.15 0.0.0.0 area 0
+net 10.6.15.0 0.0.0.255 area 0
+net 10.15.16.0 0.0.0.255 area 0
+net 10.15.17.0 0.0.0.255 area 0
+net 10.15.18.0 0.0.0.255 area 0
+ex
+
+router bgp 65001
+network 15.15.15.15 mask 255.255.255.255
+neighbor Router15 peer-group
+neighbor Router15 remote-as 65001
+neighbor Router15 update-source loopback 15
+!
+neighbor Router15 description Router15-Neighbor
+neighbor 6.6.6.6 peer-group Router15
+neighbor 16.16.16.16 peer-group Router15
+neighbor 17.17.17.17 peer-group Router15
+neighbor 18.18.18.18 peer-group Router15
+do wr
+
+
+
+
+
+----------------------
+----------------------
+Router16:
+
+en
+conf t
+ho Router16
+int loo 16
+ip add 16.16.16.16 255.255.255
+int et 1/0
+ip add 10.11.16.16 255.255.255.0
+no sh
+int et 1/1
+ip add 10.15.16.16 255.255.255.0
+no sh
+ex
+
+router ospf 65001
+net 16.16.16.16 0.0.0.0 area 0
+net 10.15.16.0 0.0.0.255 area 0
+ex
+
+router bgp 65001
+network 16.16.16.16 mask 255.255.255.255
+neighbor 10.11.16.11 remote-as 65000
+neighbor Router16 peer-group
+neighbor Router16 remote-as 65001
+neighbor Router16 update-source loopback 16
+neighbor Router16 next-hop-self
+neighbor Router16 description Router16-Neighbor
+neighbor 6.6.6.6 peer-group Router16
+neighbor 15.15.15.15 peer-group Router16
+neighbor 17.17.17.17 peer-group Router16
+neighbor 18.18.18.18 peer-group Router16
+do wr
+
+
+
+
+----------------------
+----------------------
+Router17:
+
+en
+conf t
+ho Router17
+int loo 17
+ip add 17.17.17.17 255.255.255.255
+int et 1/0
+ip add 10.15.17.17 255.255.255.0
+no sh
+ex
+
+router ospf 65001
+net 17.17.17.17 0.0.0.0 area 0
+net 10.15.17.0 0.0.0.255 area 0
+ex
+
+router bgp 65001
+network 17.17.17.17 mask 255.255.255.255
+neighbor Router17 peer-group
+neighbor Router17 remote-as 65001
+neighbor Router17 update-source loopback 17
+!
+neighbor Router17 description Router17-Neighbor
+neighbor 6.6.6.6 peer-group Router17
+neighbor 15.15.15.15 peer-group Router17
+neighbor 16.16.16.16 peer-group Router17
+neighbor 18.18.18.18 peer-group Router17
+do wr
+
+
+
+
+----------------------
+----------------------
+Router18:
+
+en
+conf t
+ho Router18
+int loo 18
+ip add 18.18.18.18 255.255.255.255
+int et 1/0
+ip add 10.15.18.18 255.255.255.0
+no sh
+ex
+
+router ospf 65001
+net 18.18.18.18 0.0.0.0 area 0
+net 10.15.18.0 0.0.0.255 area 0
+ex
+
+router bgp 65001
+network 18.18.18.18 mask 255.255.255.255
+neighbor Router18 peer-group
+neighbor Router18 remote-as 65001
+neighbor Router18 update-source loopback 18
+!
+neighbor Router18 description Router18-Neighbor
+neighbor 6.6.6.6 peer-group Router18
+neighbor 15.15.15.15 peer-group Router18
+neighbor 16.16.16.16 peer-group Router18
+neighbor 17.17.17.17 peer-group Router18
+do wr
+
+
+
+
+----------------------
+----------------------
+Router19:
+
+en
+conf t
+ho Router19
+int loo 19
+ip add 19.19.19.19 255.255.255.255
+int et 2/0
+ip add 10.12.19.19 255.255.255.0
+no sh
+int et 2/1
+ip add 10.7.19.19 255.255.255.0
+no sh
+int et 2/2
+ip add 10.19.21.19 255.255.255.0
+no sh
+ex
+
+router ospf 65002
+net 19.19.19.19 0.0.0.0 area 0
+net 10.7.19.0 0.0.0.255 area 0
+net 10.19.21.0 0.0.0.255 area 0
+ex
+
+router bgp 65002
+network 19.19.19.19 mask 255.255.255.255
+neighbor 10.12.19.12 remote-as 65000
+neighbor Router19 peer-group
+neighbor Router19 remote-as 65002
+neighbor Router19 update-source loopback 19
+neighbor Router19 next-hop-self
+neighbor Router19 description Router19-Neighbor
+neighbor 7.7.7.7 peer-group Router19
+neighbor 20.20.20.20 peer-group Router19
+neighbor 21.21.21.21 peer-group Router19
+do wr
+
+
+
+
+----------------------
+----------------------
+Router20:
+
+en
+conf t
+ho Router20
+int loo 20
+ip add 20.20.20.20 255.255.255.255
+int et 2/0
+ip add 10.7.20.20 255.255.255.0
+no sh
+int et 2/1
+ip add 10.20.21.20 255.255.255.0
+no sh
+ex
+
+router ospf 65002
+net 20.20.20.20 0.0.0.0 area 0
+net 10.7.20.0 0.0.0.255 area 0
+net 10.20.21.0 0.0.0.255 area 0
+ex
+
+router bgp 65002
+network 20.20.20.20 mask 255.255.255.255
+neighbor Router20 peer-group
+neighbor Router20 remote-as 65002
+neighbor Router20 update-source loopback 20
+!
+neighbor Router20 description Router20-Neighbor
+neighbor 7.7.7.7 peer-group Router20
+neighbor 19.19.19.19 peer-group Router20
+neighbor 21.21.21.21 peer-group Router20
+do wr
+
+
+
+
+----------------------
+----------------------
+Router21:
+
+en
+conf t
+ho Router21
+int loo 21
+ip add 21.21.21.21 255.255.255.255
+int et 2/0
+ip add 10.20.21.21 255.255.255.0
+no sh
+int et 2/1
+ip add 10.19.21.21 255.255.255.0
+no sh
+no sh
+ex
+
+router ospf 65002
+net 21.21.21.21 0.0.0.0 area 0
+net 10.19.21.0 0.0.0.255 area 0
+net 10.20.21.0 0.0.0.255 area 0
+ex
+
+router bgp 65002
+network 21.21.21.21 mask 255.255.255.255
+neighbor Router21 peer-group
+neighbor Router21 remote-as 65002
+neighbor Router21 update-source loopback 21
+!
+neighbor Router21 description Router21-Neighbor
+neighbor 7.7.7.7 peer-group Router21
+neighbor 19.19.19.19 peer-group Router21
+neighbor 20.20.20.20 peer-group Router21
+do wr
+
+
+
+
+----------------------
+----------------------
+Router22:
+
+en
+conf t
+ho Router22
+int loo 22
+ip add 22.22.22.22 255.255.255.255
+int et 3/0
+ip add 10.13.22.22 255.255.255.0
+no sh
+int et 3/1
+ip add 10.8.22.22 255.255.255.0
+no sh
+ex
+
+router ospf 65003
+net 22.22.22.22 0.0.0.0 area 0
+net 10.8.22.0 0.0.0.255 area 0
+ex
+
+router bgp 65003
+network 22.22.22.22 mask 255.255.255.255
+neighbor Router22 peer-group
+neighbor Router22 remote-as 65003
+neighbor Router22 update-source loopback 22
+neighbor Router22 next-hop-self
+neighbor Router22 description Router22-Neighbor
+neighbor 8.8.8.8 peer-group Router22
+neighbor 23.23.23.23 peer-group Router22
+neighbor 24.24.24.24 peer-group Router22
+do wr
+
+
+
+
+----------------------
+----------------------
+Router23:
+
+en
+conf t
+ho Router23
+int loo 23
+ip add 23.23.23.23 255.255.255.255
+int et 3/0
+ip add 10.8.23.23 255.255.255.0
+no sh
+ex
+
+router ospf 65003
+net 23.23.23.23 0.0.0.0 area 0
+net 10.8.23.0 0.0.0.255 area 0
+ex
+
+router bgp 65003
+network 23.23.23.23 mask 255.255.255.255
+neighbor Router23 peer-group
+neighbor Router23 remote-as 65003
+neighbor Router23 update-source loopback 23
+!
+neighbor Router23 description Router23-Neighbor
+neighbor 8.8.8.8 peer-group Router23
+neighbor 22.22.22.22 peer-group Router23
+neighbor 24.24.24.24 peer-group Router23
+do wr
+
+
+
+
+----------------------
+----------------------
+Router24:
+
+en
+conf t
+ho Router24
+int loo 24
+ip add 24.24.24.24 255.255.255.255
+int et 3/0
+ip add 10.8.24.24 255.255.255.0
+no sh
+ex
+
+router ospf 65003
+net 24.24.24.24 0.0.0.0 area 0
+net 10.8.24.0 0.0.0.255 area 0
+ex
+
+router bgp 65003
+network 24.24.24.24 mask 255.255.255.255
+neighbor Router24 peer-group
+neighbor Router24 remote-as 65003
+neighbor Router24 update-source loopback 24
+!
+neighbor Router24 description Router24-Neighbor
+neighbor 8.8.8.8 peer-group Router24
+neighbor 22.22.22.22 peer-group Router24
+neighbor 23.23.23.23 peer-group Router24
+do wr
+
+
+
+
+----------------------
+----------------------
+Router25:
+
+en
+conf t
+ho Router25
+int loo 25
+ip add 25.25.25.25 255.255.255.255
+int et 4/0
+ip add 10.14.25.25 255.255.255.0
+no sh
+int et 4/1
+ip add 10.9.25.25 255.255.255.0
+no sh
+int et 4/2
+ip add 10.25.27.25 255.255.255.0
+no sh
+ex
+
+router ospf 65004
+net 25.25.25.25 0.0.0.0 area 0
+net 10.9.25.0 0.0.0.255 area 0
+net 10.25.27.0 0.0.0.255 area 0
+ex
+
+router bgp 65004
+network 25.25.25.25 mask 255.255.255.255
+neighbor 10.14.25.14 remote-as 65000
+neighbor Router25 peer-group
+neighbor Router25 remote-as 65004
+neighbor Router25 update-source loopback 25
+neighbor Router25 next-hop-self
+neighbor Router25 description Router25-Neighbor
+neighbor 9.9.9.9 peer-group Router25
+neighbor 26.26.26.26 peer-group Router25
+neighbor 27.27.27.27 peer-group Router25
+do wr
+
+
+
+
+----------------------
+----------------------
+Router26:
+
+en
+conf t
+ho Router26
+int loo 26
+ip add 26.26.26.26 255.255.255.255
+int et 4/0
+ip add 10.9.26.26 255.255.255.0
+no sh
+int et 4/1
+ip add 10.26.27.26 255.255.255.0
+no sh
+ex
+
+router ospf 65004
+net 26.26.26.26 0.0.0.0 area 0
+net 10.9.26.0 0.0.0.255 area 0
+net 10.26.27.0 0.0.0.255 area 0
+ex
+
+router bgp 65004
+network 26.26.26.26 mask 255.255.255.255
+neighbor Router26 peer-group
+neighbor Router26 remote-as 65004
+neighbor Router26 update-source loopback 26
+!
+neighbor Router26 description Router26-Neighbor
+neighbor 9.9.9.9 peer-group Router26
+neighbor 25.25.25.25 peer-group Router26
+neighbor 27.27.27.27 peer-group Router26
+do wr
+
+
+
+
+----------------------
+----------------------
+Router27:
+
+en
+conf t
+ho Router27
+int loo 27
+ip add 27.27.27.27 255.255.255.255
+int et 4/0
+ip add 10.25.27.27 255.255.255.0
+no sh
+int et 4/1
+ip add 10.26.27.27 255.255.255.0
+no sh
+ex
+
+router ospf 65004
+net 27.27.27.27 0.0.0.0 area 0
+net 10.25.27.0 0.0.0.255 area 0
+net 10.26.27.0 0.0.0.255 area 0
+ex
+
+router bgp 65004
+network 27.27.27.27 mask 255.255.255.255
+neighbor Router27 peer-group
+neighbor Router27 remote-as 65004
+neighbor Router27 update-source loopback 27
+!
+neighbor Router27 description Router27-Neighbor
+neighbor 9.9.9.9 peer-group Router27
+neighbor 25.25.25.25 peer-group Router27
+neighbor 26.26.26.26 peer-group Router27
+do wr
+
+
+
+
+----------------------
+----------------------

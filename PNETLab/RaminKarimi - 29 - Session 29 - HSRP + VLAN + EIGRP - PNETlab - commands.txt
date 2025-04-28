@@ -1,0 +1,138 @@
+RaminKarimi - 29 - Session 29 - HSRP + VLAN + EIGRP
+---------------------------------------------
+Switch:
+Switch>en
+Switch#conf t
+Switch(config)#ho Switch
+Switch(config)#vlan 10
+Switch(config-vlan)#name VLAN10
+Switch(config-vlan)#vlan 20
+Switch(config-vlan)#name VLAN20
+Switch(config-vlan)#do wr
+Switch(config-vlan)#ex
+Switch(config-if)#int et 1/0
+Switch(config-if)#switchport mode access
+Switch(config-if)#switchport access vlan 10
+Switch(config-if)#no sh
+Switch(config-if)#int et 1/1
+Switch(config-if)#switchport mode access
+Switch(config-if)#switchport access vlan 20
+Switch(config-if)#no sh
+Switch(config-if)#int et 1/2
+Switch(config-if)#switchport mode access
+Switch(config-if)#switchport access vlan 10
+Switch(config-if)#no sh
+Switch(config-if)#int et 1/3
+Switch(config-if)#switchport mode access
+Switch(config-if)#switchport access vlan 20
+Switch(config-if)#no sh
+Switch(config-if)#do wr
+Switch(config-if)#ex
+Switch(config)#int ra et 0/1-2
+Switch(config-if-range)#switchport trunk encapsulation dot1q
+Switch(config-if-range)#switchport mode trunk
+Switch(config-if-range)#do sho int status
+---------------------------------------------
+Switch10:
+Switch>en
+Switch#conf t
+Switch(config)#ho Switch10
+Switch10(config)#vlan 10
+Switch10(config-vlan)#name VLAN10
+Switch10(config-vlan)#vlan 20
+Switch10(config-vlan)#name VLAN20
+Switch10(config-vlan)#int vlan 10
+Switch10(config-if)#ip add 192.168.10.1 255.255.255.0
+Switch10(config-if)#no sh
+Switch10(config-if)#int vlan 20
+Switch10(config-if)#ip add 192.168.20.10 255.255.255.0
+Switch10(config-if)#no sh
+Switch10(config-if)#int gig 0/0
+Switch10(config-if)#no switchport 
+Switch10(config-if)#ip add 192.168.100.10 255.255.255.0 
+Switch10(config-if)#no sh
+Switch10(config-if)#int gig 0/1
+Switch10(config-if)#sw tr en dot1q
+Switch10(config-if)#sw mo tr
+Switch10(config-if)#no sh
+Switch10(config-if)#do wr
+Switch10(config-if)#int vlan 10
+Switch10(config-if)#standby 10 priority 110
+Switch10(config-if)#standby 10 ip 192.168.10.10
+Switch10(config-if)#standby 10 preempt
+Switch10(config-if)#standby 10 authentication ramz10
+Switch10(config-if)#int vlan 20
+Switch10(config-if)#standby 20 priority 120
+Switch10(config-if)#standby 20 ip 192.168.20.20
+Switch10(config-if)#standby 20 preempt
+Switch10(config-if)#standby 20 authentication ramz20
+Switch10(config-if)#do wr
+Switch10(config-if)#ex
+Switch10(config)#router eigrp 1
+Switch10(config-router)#net 192.168.100.0 0.0.0.255
+Switch10(config-router)#net 192.168.10.0 0.0.0.255
+Switch10(config-router)#net 192.168.20.0 0.0.0.255
+Switch10(config-router)#do wr
+---------------------------------------------
+Switch20:
+Switch>en
+Switch#conf t
+Switch(config)#ho Switch20
+Switch20(config)#vlan 10
+Switch20(config-vlan)#name VLAN10
+Switch20(config-vlan)#vlan 20
+Switch20(config-vlan)#name VLAN20
+Switch20(config-vlan)#int vlan 20
+Switch20(config-if)#ip add 192.168.20.1 255.255.255.0
+Switch20(config-if)#no sh
+Switch20(config-if)#int vlan 10
+Switch20(config-if)#ip add 192.168.10.20 255.255.255.0
+Switch20(config-if)#no sh
+Switch20(config-if)#int gig 0/0
+Switch20(config-if)#no switchport 
+Switch20(config-if)#ip add 192.168.200.20 255.255.255.0 
+Switch20(config-if)#no sh
+Switch20(config-if)#int gig 0/2
+Switch20(config-if)#sw tr en dot1q
+Switch20(config-if)#sw mo tr
+Switch20(config-if)#no sh
+Switch20(config-if)#int vlan 10
+Switch20(config-if)#standby 10 authentication ramz10
+Switch20(config-if)#standby 10 ip 192.168.10.10
+Switch20(config-if)#standby 10 preempt
+Switch20(config-if)#int vlan 20
+Switch20(config-if)#standby 20 authentication ramz20
+Switch20(config-if)#standby 20 ip 192.168.20.20
+Switch20(config-if)#standby 20 preempt
+Switch20(config-if)#do wr
+Switch20(config-if)#do wr
+Switch20(config-if)#ex
+Switch20(config)#router eigrp 1
+Switch20(config-router)#net 192.168.200.0 0.0.0.255
+Switch20(config-router)#net 192.168.20.0 0.0.0.255
+Switch20(config-router)#net 192.168.10.0 0.0.0.255
+Switch20(config-router)#do wr
+---------------------------------------------
+Router1:
+Router>en
+Router#conf t
+Router(config)#ho Router1
+Router1(config)#int et 1/0
+Router1(config-if)#ip add 10.0.0.1 255.255.255.0
+Router1(config-if)#no sh
+Router1(config-if)#nint et 1/1
+Router1(config-if)#ip add 192.168.100.1 255.255.255.0
+Router1(config-if)#no sh
+Router1(config-if)#nint et 1/2
+Router1(config-if)#ip add 192.168.200.1 255.255.255.0
+Router1(config-if)#no sh
+Router1(config-if)#int gig 0/0
+Router1(config-if)#no switchport 
+Router1(config-if)#ip add 192.168.200.20 255.255.255.0 
+Router1(config-if)#do wr
+Router1(config-if)#ex
+Router1(config)#router eigrp 1
+Router1(config-router)#net 192.168.200.0 0.0.0.255
+Router1(config-router)#net 192.168.100.0 0.0.0.255
+Router1(config-router)#net 10.0.0.0 0.0.0.255
+Router1(config-router)#do wr

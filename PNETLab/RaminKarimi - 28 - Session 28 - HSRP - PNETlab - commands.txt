@@ -1,0 +1,33 @@
+RaminKarimi - 28 - Session 28 - HSRP
+-----------------------------------
+
+
+net management
+-----------------------------------
+Switch#conf t
+Switch#ho Core-Switch2
+Core-Switch2(config)#int et 0/0
+Core-Switch2(config-if)#ip address dhcp
+Core-Switch2(config-if)#do sho ip int br
+Ethernet0/0                192.168.25.102
+Core-Switch2(config-if)#int et 0/2
+Core-Switch2(config-if)#ip add 192.168.1.2 255.255.255.0
+Core-Switch2(config-if)#no sh
+Core-Switch2(config-if)#standby 12 ip 192.168.1.1
+Core-Switch2(config-if)#standby 12 priority 255
+Core-Switch2(config-if)#standby 12 preempt
+Core-Switch2(config-if)#standby 12 authentication ramz
+-----------------------------------
+Switch#conf t
+Switch#ho Core-Switch3
+Core-Switch3(config)#int et 0/0
+Core-Switch3(config-if)#ip address dhcp
+Core-Switch3(config-if)#do sho ip int br
+Ethernet0/0                192.168.25.103
+Core-Switch3(config-if)#int et 0/3
+Core-Switch3(config-if)#ip add 192.168.1.3 255.255.255.0
+Core-Switch3(config-if)#no sh
+Core-Switch3(config-if)#standby 12 authentication ramz
+Core-Switch3(config-if)#standby 12 ip 192.168.1.1
+Core-Switch3(config-if)#standby 12 preempt
+-----------------------------------

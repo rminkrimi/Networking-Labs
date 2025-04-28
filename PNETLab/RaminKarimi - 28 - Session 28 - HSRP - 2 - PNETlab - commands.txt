@@ -1,0 +1,39 @@
+RaminKarimi - 28 - Session 28 - HSRP - 2
+-----------------------------------
+
+net management
+-----------------------------------
+Switch#conf t
+Switch#ho Router1
+Router1(config)#int et 0/1
+Router1(config-if)#ip address 192.168.5.1 255.255.255.0
+Router1(config-if)#no sh
+Router1(config-if)#standby 5 ip 192.168.5.5
+Router1(config-if)#standby 5 priority 105
+Router1(config-if)#standby 5 preempt
+Router1(config-if)#standby 5 authentication ramz5
+Router1(config-if)#int et 1/1
+Router1(config-if)#ip add 192.168.4.1 255.255.255.0
+Router1(config-if)#no sh
+Router1(config-if)#standby 4 ip 192.168.4.4
+Router1(config-if)#standby 4 priority 104
+Router1(config-if)#standby 4 preempt
+Router1(config-if)#standby 4 authentication ramz4
+
+-----------------------------------
+Switch#conf t
+Switch#ho Router2
+Router2(config)#int et 0/2
+Router2(config-if)#ip address 192.168.5.2 255.255.255.0
+Router2(config-if)#no sh
+Router2(config-if)#standby 5 ip 192.168.5.5
+Router2(config-if)#standby 5 authentication ramz5
+Router2(config-if)#standby 5 preempt
+Router2(config-if)#int et 1/2
+Router2(config-if)#ip add 192.168.4.2 255.255.255.0
+Router2(config-if)#no sh
+Router2(config-if)#standby 4 ip 192.168.4.4
+Router2(config-if)#standby 4 authentication ramz4
+Router2(config-if)#standby 4 preempt
+
+-----------------------------------

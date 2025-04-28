@@ -1,0 +1,68 @@
+RaminKarimi - 27 - Session 27 - BGP Confederation + eBGP + iBGP full mesh peering + EIGRP - PNETlab - commands
+
+eshtebahi  kardam ine oomadam be hame routerha shabake poshti dadam va tabliq kardam. sare forsat pakeshoon mikonam. az r2tar6 - anjam shod ba Dastoor no network hazfeshoon kardam.
+
+### Router 1 (AS 65001)
+router bgp 65001
+ neighbor 192.168.12.2 remote-as 65000
+ network 1.1.1.1 mask 255.255.255.255
+ network 192.168.1.0 mask 255.255.255.0
+
+### Router 2 (AS 65000, Sub-AS 65502)
+router bgp 65502
+ bgp confederation identifier 65000
+ bgp confederation peers 65504 65506
+ neighbor 192.168.12.1 remote-as 65001
+ neighbor 3.3.3.3 remote-as 65504
+ neighbor 3.3.3.3 update-source Loopback2
+ neighbor 3.3.3.3 next-hop-self ##vase biroomi ebgp
+ neighbor 3.3.3.3 ebgp-multihop 2 ##vase dakheli ibgp
+
+### Router 3 (AS 65000, Sub-AS 65504) ba 4 va 5 too yek as
+router bgp 65504
+ bgp confederation identifier 65000
+ bgp confederation peers 65502 65506
+ neighbor 2.2.2.2 remote-as 65502
+ neighbor 2.2.2.2 update-source Loopback3
+ neighbor 2.2.2.2 ebgp-multihop 2
+ neighbor 4.4.4.4 remote-as 65504
+ neighbor 4.4.4.4 update-source Loopback3
+ neighbor 5.5.5.5 remote-as 65504
+ neighbor 5.5.5.5 update-source Loopback3
+
+### Router 4 (AS 65000, Sub-AS 65504)
+router bgp 65504
+ bgp confederation identifier 65000
+ bgp confederation peers 65502 65506
+ neighbor 3.3.3.3 remote-as 65504
+ neighbor 3.3.3.3 update-source Loopback4
+ neighbor 5.5.5.5 remote-as 65504
+ neighbor 5.5.5.5 update-source Loopback4
+
+### Router 5 (AS 65000, Sub-AS 65504)
+router bgp 65504
+ bgp confederation identifier 65000
+ bgp confederation peers 65502 65506
+ neighbor 6.6.6.6 remote-as 65506
+ neighbor 6.6.6.6 update-source Loopback5
+ neighbor 6.6.6.6 ebgp-multihop 2
+ neighbor 3.3.3.3 remote-as 65504
+ neighbor 3.3.3.3 update-source Loopback5
+ neighbor 4.4.4.4 remote-as 65504
+ neighbor 4.4.4.4 update-source Loopback5
+
+### Router 6 (AS 65000, Sub-AS 65506)
+router bgp 65506
+ bgp confederation identifier 65000
+ bgp confederation peers 65502 65504
+ neighbor 192.168.67.7 remote-as 65007
+ neighbor 5.5.5.5 remote-as 65504
+ neighbor 5.5.5.5 update-source Loopback6
+ neighbor 5.5.5.5 next-hop-self
+ neighbor 5.5.5.5 ebgp-multihop 2
+
+### Router 7 (AS 65007)
+router bgp 65007
+ neighbor 192.168.67.6 remote-as 65000
+ network 7.7.7.7 mask 255.255.255.255
+ network 192.168.7.0 mask 255.255.255.0
